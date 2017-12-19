@@ -1,0 +1,9 @@
+<!DOCTYPE webprojectsession>
+<webprojectsession>
+  <session usePreviewPrefix="0" previewPrefix="" >
+    <itemcursorpositions>
+      <item line="10" column="0" url="generar_listado.php" />
+      <item line="0" column="0" url="form_elegir_parametros_reporte.php" />
+    </itemcursorpositions>
+  </session>
+</webprojectsession>

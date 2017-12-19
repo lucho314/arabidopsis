@@ -1,0 +1,195 @@
+
+
+* {
+    margin: 0px;
+    padding: 0px;
+    outline: 0;
+  }
+
+
+html, body {
+    width: 100%;
+
+  }
+
+
+body {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+  }
+
+
+#menu {
+    text-align: center;
+    font-weight: bold;
+    font-size: 12px;
+    width: 980px;
+    margin: 0 auto;
+    z-index: 5000;
+  }
+
+
+#menu ul {
+    text-align: center;
+    list-style-type: none;
+    z-index: 5000;
+  }
+
+
+#menu ul li {
+    width:125px;
+    z-index: 5000;
+
+  }
+
+
+#menu ul li.nivel1 {
+    float: left;
+    margin-right: 1px;
+  }
+
+
+#menu ul li a {
+    display: block;
+    text-decoration: none;
+    padding: 2px;
+    position: relative;
+    color: #fff;
+  }
+
+
+#menu ul li a.nivel2, #menu ul li a.nivel2ie {
+    color: #fff;
+  }
+
+
+#menu ul li a.nivel1, #menu ul li a.nivel2 {
+    display: block!important;
+    display: none;
+    position: relative;
+    color: #fff;
+
+  }
+
+
+#menu ul li:hover {
+    position: relative;
+  }
+
+
+#menu ul li a:hover, #menu ul li:hover a.nivel1 {
+    color:#F7F7F7;
+    position: relative;
+    background: #679B38;
+  }
+
+
+#menu ul li ul {
+    display: none;
+    color: #fff;
+  }
+
+
+#menu ul li:hover  ul.nivel2, #menu ul li a:hover  ul.nivel2 {
+    display: block;
+    position: absolute;
+    left: 0px;
+    background:#97A940;
+    color: #fff;
+  }
+
+
+#menu ul li ul li a:hover ul.nivel3, #menu ul li ul li:hover ul.nivel3 {
+    display: block;
+    position: absolute;
+    left: 125px!important;
+    left: 125px;
+    top:0px!important;
+    top: -21px;
+    color: #000;
+    background-color: #008000;
+  }
+  
+
+
+
+#menu ul li ul li a {
+    width: 125px;
+    padding: 2px 0px;
+/*    border-top-color: #fff;
+    border: solid 1px #fff;*/
+  }
+
+
+#menu ul li ul li a:hover {
+    border-top-color: #000;
+    position: relative;
+  }
+
+
+#menu ul li ul li ul li a.primera {
+    border-top-color: #9A8896;
+  }
+
+
+table.falsa {
+    border-collapse:collapse;
+    border:0px;
+    float: left;
+    position: relative;
+  }
+
+/* dropdown selected properties */
+
+.b_posgrado {
+    color:#ffffff;
+    background: #9EB0FF;
+  }
+
+
+.b_posgrado a:visited {
+    color:#ffffff;
+    background: #9EB0FF;
+  }
+
+
+.b_posgrado a {
+    color:#ffffff;
+    background: #9EB0FF;
+  }
+
+
+.b_posgrado a:hover {
+    color:#ffffff;
+    background: #9EB0FF;
+  }
+
+.mensaje {
+	color: #FF0000;
+}
+
+.boton_relacion {
+	color: blue;
+	background: white;
+	border: 1px;
+
+}
+.boton_alerta {
+	color: white;
+	background: red;
+	border: 1px;
+	border-color: gray;	
+}
+.boton_normal {
+	color: white;
+	background: blue;
+	border: 1px;
+	border-color: gray;	
+}
+
+.tituloprincipal {
+    color: #679B38;
+    font-family: arial;
+    font-size: 16px;
+    font-weight: bold;
+    font-style: italic;
+}

@@ -1,0 +1,15 @@
+Consultas:
+
+SELECT s.numero_de_documento, s.razon_social,s.apellido,s.nombre,s.ciudad_id,s.calle,s.numero,s.piso,s.dpto,sc.id, sc.descripcion,sc.fecha_y_hora,sc.tipo_de_conexion_id,sc.tipo_de_tarifa_id,sc.nueva_id, sc.instalador_id,oc.fecha_y_hora
+FROM solicitud_de_conexions sc
+INNER JOIN suministros s ON s.id=sc.suministro_id
+INNER JOIN ciudads c ON s.ciudad_id=c.id
+INNER JOIN tipo_de_tarifas tdta ON tdta.id=sc.tipo_de_tarifa_id
+INNER JOIN nuevas n ON n.id=sc.nueva_id
+INNER JOIN tipo_de_conexions tdc ON tdc.id=sc.tipo_de_conexion_id
+INNER JOIN instaladors i ON i.id=sc.instalador_id
+INNER JOIN orden_de_conexions oc ON oc.solicitud_de_conexion_id=sc.id
+WHERE sc.fecha_y_hora>=$$inicial 
+AND sc.fecha_y_hora<=$$actual
+AND sc.ente_id=$$ente
+

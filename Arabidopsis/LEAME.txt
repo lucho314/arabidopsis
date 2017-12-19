@@ -1,0 +1,20 @@
+Pautas para dise&ntilde;ar las bases de datos acordes al sistema scaffold.
+
+1) Las tablas deberán nombrarse en plural y minúsculas, preferentemente en inglés.
+2) El campo índice de la tabla debe llamarse id
+3) Las claves foráneas deben llamarse con el nombre en singular de la tabla a la que refieren, seguido de _id (por ejemplo, rubro_id)
+4) El campo id debe ser AUTO_INCREMENT
+5) El campo descriptivo debe llamarse preferentemente 'descripcion'
+6) El campo de tipo blob donde se muestre una imagen debe llamarse 'foto'.
+
+Características específicas.
+
+Para el scaffold con AJAX:
+- Existe una tabla especial en la base de datos llamada operacion
+- Esta tabla no es editable con el scaffold por sus características. Esto fue hecho así deliveradamente para evitar que sea modificada accidentalmente.
+- Esta tabla permite guardar consultas SQL específicas.
+- Los campos de la tabla son id_operacion, operacion (descripción de la consulta), criterio (nombre de la clave foránea que se usará para filtrar), orden (nombre del campo por el que se ordenarán inicialmente los datos), totalfk (correspondiente a la cantidad de claves foráneas que se considerarán), fkarray (nombre de las claves foráneas separados por comas), tabla (nombre de la tabla a la que se aplica la consulta) y id_tabla (nombre del id de la tabla, en general, id).
+
+El script listar_registros.php recibe desde el formulario anterior los siguientes valores:
+id_filtro: corresponde al nombre de la fk que se usará para filtrar
+id_operacion: corresponde al id de la consulta SQL almacenada en la tabla operacion.
