@@ -12,6 +12,30 @@ $query3=mysql_query($sql);
 $sql="SELECT * FROM `proveedors` order by descripcion";
 $query4=mysql_query($sql);
 
+
+if(isset($_GET["movimiento_id"]))
+{
+
+    $movimiento_id=$_GET["movimiento_id"];
+   $sql="select
+              `concepto_movimiento_id` as concepto_id,
+              `fecha`,
+              `proveedor_id`,
+              `monto_en_pesos` as monto,
+              `nro_comprobante_o_transaccion` as nro_comprobante,
+              `nro_factura`
+         from movimientos
+         where id=$movimiento_id";
+    $query=mysql_query($sql);
+    while ($fila = mysql_fetch_assoc($query)) {
+      $movimiento=$fila;
+    }
+    $movimiento= json_encode($movimiento);
+}
+
+
+
+
 ?>
  <link rel="stylesheet" href="css/tabs.css">
  <script src="js/vue.js"></script>
@@ -44,7 +68,7 @@ $query4=mysql_query($sql);
 
                            <div class="form-group">
                             <label for="proveedor" class="control-label">Proveedor:</label>
-                           <select class="form-control salida js-example-basic-single" required name="proveedor_id" onchange="general.proveedor_id=$(this).val()" >
+                           <select class="form-control salida js-example-basic-single" required name="proveedor_id" id="proveedor_select" onchange="general.proveedor_id=$(this).val()" >
                               <option value="">Seleccione proveedor</option>
                               <?php while ($fila = mysql_fetch_assoc($query4)): ?>
                                                   <option value="<?= $fila["id"] ?>"> <?= $fila["descripcion"] ?> </option>
@@ -343,7 +367,16 @@ var general = new Vue({
 	 	},
 	 	processFile(e){
 	 		 this.fileUploadFormData = event.target.files[0];
-	 	}
+	 	},
+    setDataFromDb(json){
+           for (var i in json) {
+              this[i]=json[i];
+
+           }
+           console.log(this.proveedor_id);
+           $("#proveedor_select").val(this.proveedor_id).change();
+           $("#fecha").val(this.fecha);
+        }
 		   
 	 },
 
@@ -491,6 +524,7 @@ var vm = new Vue({
           this.tipo_de_transaccion_id="";
           this.tarjeta_id=""
         }
+        
 		}
 
 });
@@ -658,6 +692,12 @@ function guardarFile(){
                 });
 
 }
+
+
+
+var data=<?= $movimiento ?>;
+
+
 </script>
 
 <?php
