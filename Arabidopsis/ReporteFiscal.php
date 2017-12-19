@@ -1,6 +1,13 @@
 <?php
 include "html_sup.php";
 ?>
+<style type="text/css">
+    .not-active {
+  pointer-events: none;
+  cursor: default;
+}
+
+</style>
 <div class="container" id="general">
     <div class="row">
     	<div class="col-md-12">
@@ -17,6 +24,7 @@ include "html_sup.php";
                                 <th>Proveedor</th>
                                 <th>Monto</th>
                                 <th>Nro factura</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                     </table>
@@ -52,7 +60,13 @@ var table=$('#reporte').DataTable( {
                 }},
             { data: "proveedors.razon_social" },
             { data: "movimientos.monto_en_pesos" },
-           { data: "movimientos.nro_factura" }
+            { data: "movimientos.nro_factura" },
+            {data: "archivos.nombre", render:function(d){
+                var disabled=(d==null) ? "not-active" : "";
+                
+                return '<a href="uploads/'+d+'" download  class="glyphicon glyphicon-save '+disabled+'"> </a>';
+
+            }}
         ]
 } );
 

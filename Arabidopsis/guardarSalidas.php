@@ -5,17 +5,19 @@ session_name("Arabidopsis");
 session_start();
 if(isset($_FILES["archivo"]))
 {
-	echo $ret="asdasd";
+	$path = $_FILES['archivo']['name'];
+	$ext = pathinfo($path, PATHINFO_EXTENSION);
 	$output_dir = "uploads\\";
 	
 	$descripcion = "Movimiento_".$_SESSION["movimiento_id"];
 	$fecha=$_SESSION["fecha"];
 	$nro_comprobante=$_SESSION["nro_comprobante"];
 	$nro_factura=$_SESSION["nro_factura"];
-	$fileName="${fecha} - $nro_comprobante$nro_factura";
+	$fileName="$fecha-$nro_comprobante$nro_factura.$ext";
 	$sql="INSERT INTO `archivos` (`id`, `nombre`,descripcion, `usuario_alta`, `usuario_modificacion`, `fecha_alta`, `fecha_modificacion`,visible_colaborador) VALUES (NULL, '$fileName','$descripcion',".$_SESSION['usuario_id']." , NULL, CURRENT_TIMESTAMP, NULL,0)";
 		if(mysql_query($sql))
  	 	{
+ 	 		
 	 		move_uploaded_file($_FILES["archivo"]["tmp_name"],$output_dir.$fileName);
 	    	
     	}
