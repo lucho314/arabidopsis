@@ -12,26 +12,9 @@ $query3=mysql_query($sql);
 $sql="SELECT * FROM `proveedors` order by descripcion";
 $query4=mysql_query($sql);
 
+$sql="SELECT id, descripcion from bancos";
+$query5= mysql_query($sql);
 
-if(isset($_GET["movimiento_id"]))
-{
-
-    $movimiento_id=$_GET["movimiento_id"];
-   $sql="select
-              `concepto_movimiento_id` as concepto_id,
-              `fecha`,
-              `proveedor_id`,
-              `monto_en_pesos` as monto,
-              `nro_comprobante_o_transaccion` as nro_comprobante,
-              `nro_factura`
-         from movimientos
-         where id=$movimiento_id";
-    $query=mysql_query($sql);
-    while ($fila = mysql_fetch_assoc($query)) {
-      $movimiento=$fila;
-    }
-    $movimiento= json_encode($movimiento);
-}
 
 
 
@@ -48,7 +31,9 @@ if(isset($_GET["movimiento_id"]))
                             <li class="active"><a href="#tab1default" data-toggle="tab">Default 1</a></li>
                             <li class="items"><a href="#tab2default" data-toggle="tab">Default 2</a></li>
                             <li class="pagos"><a href="#tab3default" data-toggle="tab">Default 3</a></li>
-                             <li class="pagos"><a href="#tab4default" data-toggle="tab">Default 3</a></li>
+                            <?php if(!isset($_GET["movimiento_id"])): ?>
+                            <li class="pagos"><a href="#tab4default" data-toggle="tab">Default 3</a></li>
+                             <?php endif; ?>
                             <div style="float: right">
                             	<a class="btn btn-danger" href="ddjj_principal.aspx" style="color: white">CANCELAR</a> &nbsp;
                             	<button class="btn btn-success" id="grabar" v-on:click="grabarDatos($event)">GRABAR</button>
@@ -142,7 +127,7 @@ if(isset($_GET["movimiento_id"]))
 						  <a class="btn btn-primary" style="float: left;"  data-toggle="modal" id="btn-nuevo-pago">
           Nuevo pago
         </a>
-        <div style="width: 27%; margin-left: 68%;">
+        <div style="width: 31%; margin-left: 68%;">
         <p style="float: left;"><b>Monto a saldar {{$data.monto}}</b></p>
         <p style="float: right;"><b>Monto saldado {{$data.monto_saldado}}</b></p>
     </div>
@@ -240,6 +225,18 @@ if(isset($_GET["movimiento_id"]))
                                     </select>
                                     <span class="help-block"></span>
                                 </div>
+
+                              <div class="form-group" v-if="forma_pago==4">
+                                     <label for="forma_pago" class="control-label">Banco:</label>
+                                    <select class="form-control pago" required name="banco_id" v-model="banco_id" @change="handleChangeBanco" id="banco">
+                                      <option value="">Seleccione banco</option>
+                                      <?php while ($fila = mysql_fetch_assoc($query5)): ?>
+                                        <option value="<?= $fila["id"] ?>"> <?= $fila["descripcion"] ?> </option>
+                                      <?php endwhile; ?>
+                                    </select>
+                                    <span class="help-block"></span>
+                              </div>
+
                                 <div class="form-group" v-if="forma_pago!=5 && forma_pago!=3">
                                 	<label for="tipo_transaccion" class="control-label">Tipo transaccion:</label>
                                      <select class="form-control pago" required  v-model="tipo_de_transaccion_id" @change="handleChangeTtransaccion">
@@ -305,6 +302,7 @@ var items=[];
 var general = new Vue({
 	 el: '#general',
 	 data:{
+    id:"",
 	 	concepto_id:"",
 	 	detalle:"",
 	 	proveedor_id:"",
@@ -341,17 +339,39 @@ var general = new Vue({
             dataType: "json",
             success: function (e)
             {
-              guardarFile().success(function(){
-                   swal({
+
+              <?php if(!isset($_GET["movimiento_id"])): ?>
+              if($('#fileInput').val=="")
+              {
+                    swal({
+                        title: "Gravado",
+                        text: "Los datos se gravaron correctamente",
+                        type: "success"
+                    }, function () {
+                        location.href = "Salidas.php";
+                    });
+              }
+              else{
+                      guardarFile().success(function(){
+                           swal({
+                            title: "Gravado",
+                            text: "Los datos se gravaron correctamente",
+                            type: "success"
+                        }, function () {
+                            location.href = "Salidas.php";
+                        });
+                         })
+              }
+              
+<?php else : ?>
+              swal({
                     title: "Gravado",
                     text: "Los datos se gravaron correctamente",
                     type: "success"
                 }, function () {
                     location.href = "Salidas.php";
                 });
-
-              })
-            	
+            	<?php endif;?>  
 
             }
 	 		}).fail(function(data){
@@ -443,7 +463,9 @@ var vm = new Vue({
         	formaPagoDescripcion:"",
         	transaccionDescripcion:"",
         	tipo_de_transaccion_id:"",
-        	tarjeta_id:""
+        	tarjeta_id:"",
+          banco_id:"",
+          bancoDescripcion:"",
     	},
         watch: {
         	monto: function (val) {
@@ -476,6 +498,10 @@ var vm = new Vue({
 
 				},"json")
 		    },
+         handleChangeBanco(e)
+         {
+            this.bancoDescripcion=e.target.options[e.target.options.selectedIndex].label;
+         },
 		    handleChangeTtransaccion(e){
 		    	this.transaccionDescripcion=e.target.options[e.target.options.selectedIndex].label;
 		    	 $.post("movimientos_get_tramsaccion.php",{id:this.forma_pago,salida:1},function(d){
@@ -523,7 +549,14 @@ var vm = new Vue({
           this.transaccionDescripcion="";
           this.tipo_de_transaccion_id="";
           this.tarjeta_id=""
-        }
+        },
+        setDataFromDb(json){
+           for (var i in json) {
+              this[i]=json[i];
+
+           }
+
+          }
         
 		}
 
@@ -576,13 +609,14 @@ function actualizarPagos(){
                      			else
                      				 a="("+data.cuotas+" Cuotas)";
                      		}
+                        else if(data.forma_pago==4)
+                            return data.formaPagoDescripcion+" - "+data.bancoDescripcion+" "+data.transaccionDescripcion;
                      		return data.formaPagoDescripcion+" "+data.transaccionDescripcion+" "+a;
 
                      }},
                      {"data": "monto","defaultContent": ""},
                      {"data": function(data){
-                     		return '<a href="javascript:vm.editarPago('+data.index+')"><i class="glyphicon glyphicon-pencil"></i></a> '+
-                                    '<a href="javascript:vm.eliminarPago('+data.index+')"><i class="glyphicon glyphicon-trash"></i></a>';
+                     		return '<a href="javascript:vm.eliminarPago('+data.index+')"><i class="glyphicon glyphicon-trash"></i></a>';
 
                      }},
              		]
@@ -676,7 +710,7 @@ disableOrEnabledBtn("item",$("#guardar-item"));
 
 function guardarFile(){
 
-               var fileInputElement = $('#fileInput');   //Ya que utilizas jquery aprovechalo...
+               var fileInputElement = $('#fileInput');  
                 
                var formData = new FormData();
                
@@ -695,12 +729,74 @@ function guardarFile(){
 
 
 
-var data=<?= $movimiento ?>;
+
 
 
 </script>
 
 <?php
+if(isset($_GET["movimiento_id"]))
+{
+
+    $movimiento_id=$_GET["movimiento_id"];
+   $sql="select
+              `concepto_movimiento_id` as concepto_id,
+              `fecha`,
+              `proveedor_id`,
+              `monto_en_pesos` as monto,
+               `monto_en_pesos` as monto_saldado,
+              `nro_comprobante_o_transaccion` as nro_comprobante,
+              `nro_factura`
+         from movimientos
+         where id=$movimiento_id";
+    $query=mysql_query($sql);
+    while ($fila = mysql_fetch_assoc($query)) {
+      $movimiento=$fila;
+    }
+    $movimiento= json_encode($movimiento);
+
+  $sql="SELECT descripcion,precio,cantidad,(precio*cantidad)total FROM items WHERE movimiento_id=$movimiento_id";
+
+  $query=mysql_query($sql);
+    while ($fila = mysql_fetch_assoc($query)) {
+      $items[]=$fila;
+    }
+    $items= json_encode($items);
+
+
+    $sql="SELECT  (@a:=@a+1) 'index',P.forma_de_pago_id forma_pago, P.monto,P.cantidad_cuotas,P.monto_cuota_uno,P.monto_demas_cuotas, FP.descripcion formaPagoDescripcion,TT.descripcion transaccionDescripcion,B.descripcion bancoDescripcion from pagos_realizados P JOIN (SELECT @a:= -1) T
+      INNER JOIN tipo_de_transaccions TT on TT.id=P.tipo_de_transaccion_id 
+      INNER JOIN forma_de_pagos FP on FP.id=P.forma_de_pago_id 
+      left JOIN bancos B on B.id=P.banco_id
+      WHERE movimiento_id=$movimiento_id";
+
+      $query=mysql_query($sql);
+     while ($fila = mysql_fetch_assoc($query)) {
+        $sql="SELECT id value, descripcion text from tipo_de_transaccions where forma_de_pago_id={$fila["forma_de_pago_id"]}";
+        $query2=mysql_query($sql);
+        while ($fila2 = mysql_fetch_assoc($query2)) {
+           $tipoT[]=$fila2;
+        }
+
+        $fila["optionTransaccion"]=$tipoT;
+        $pagos[]=$fila;
+    }
+    $pagos=json_encode($pagos);
+}
 
 include 'html_inf.php';
+if(isset($_GET["movimiento_id"])):
+?>
+
+<script type="text/javascript">
+  var movimiento=<?= $movimiento ?>;
+  var items=<?= $items?>;
+  var pagos=<?= $pagos?>;
+  general.setDataFromDb(movimiento);
+  actualizarPagos();
+  actualizarItems();
+</script>
+
+<?php
+  endif;
 ?>

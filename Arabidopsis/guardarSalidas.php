@@ -93,7 +93,7 @@ foreach ($data["pagos"] as $value) {
 	else
 		$value['tipo_de_transaccion_id']=$value['tarjeta_id'];
 
-	 $sql_pagos="INSERT INTO `pagos_realizados` (`movimiento_id`, `forma_de_pago_id`,tipo_de_transaccion_id, `monto`, `cantidad_cuotas`, `monto_cuota_uno`, `monto_demas_cuotas`) 
+	 $sql_pagos="INSERT INTO `pagos_realizados` (`movimiento_id`, `forma_de_pago_id`,tipo_de_transaccion_id, `monto`, `cantidad_cuotas`, `monto_cuota_uno`, `monto_demas_cuotas`,banco_id) 
 		VALUES (
 				$movimiento_id,
 			".$value['forma_pago'].",
@@ -101,7 +101,8 @@ foreach ($data["pagos"] as $value) {
 			".$value['monto'].",
 			".$value['cuotas'].",
 			".$value['cuota_uno'].",
-			".$value['otras_cuotas']."
+			".$value['otras_cuotas'].",
+			".$value['banco_id']."
 		)";
 
 	if(!$mysqli->query($sql_pagos))
