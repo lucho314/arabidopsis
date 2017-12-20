@@ -748,7 +748,8 @@ if(isset($_GET["movimiento_id"]))
               `monto_en_pesos` as monto,
                `monto_en_pesos` as monto_saldado,
               `nro_comprobante_o_transaccion` as nro_comprobante,
-              `nro_factura`
+              `nro_factura`,
+              observaciones
          from movimientos
          where id=$movimiento_id";
     $query=mysql_query($sql);
@@ -766,7 +767,7 @@ if(isset($_GET["movimiento_id"]))
     $items= json_encode($items);
 
 
-    $sql="SELECT  (@a:=@a+1) 'index',P.forma_de_pago_id forma_pago, P.monto,P.cantidad_cuotas,P.monto_cuota_uno,P.monto_demas_cuotas, FP.descripcion formaPagoDescripcion,TT.descripcion transaccionDescripcion,B.descripcion bancoDescripcion from pagos_realizados P JOIN (SELECT @a:= -1) T
+    $sql="SELECT  (@a:=@a+1) 'index',P.forma_de_pago_id forma_pago,P.tipo_de_transaccion_id, P.monto,P.cantidad_cuotas,P.monto_cuota_uno,P.monto_demas_cuotas, FP.descripcion formaPagoDescripcion,TT.descripcion transaccionDescripcion,B.descripcion bancoDescripcion from pagos_realizados P JOIN (SELECT @a:= -1) T
       INNER JOIN tipo_de_transaccions TT on TT.id=P.tipo_de_transaccion_id 
       INNER JOIN forma_de_pagos FP on FP.id=P.forma_de_pago_id 
       left JOIN bancos B on B.id=P.banco_id

@@ -218,30 +218,30 @@ function actualizarMovimiento($data,$conn)
 	if(!$conn->query($sql))
 	{
 
-		 throw new Exception("MySQL error {$conn->error} <br> Query:<br>", $conn->errno); 
+		 throw new Exception("MySQL error {$conn->error} <br> Query:$sql<br>", $conn->errno); 
 	}
 
 	return $data["id"];
 }
 
 function eliminarItems($movimiento_id,$conn){
-	$sql="DELETE items where movimiento_id=$movimiento_id";
+	$sql="DELETE FROM items where movimiento_id=$movimiento_id";
 	if(!$conn->query($sql))
 	{
 
-		 throw new Exception("MySQL error {$conn->error} <br> Query:<br> ", $conn->errno); 
+		 throw new Exception("MySQL error {$conn->error} <br> Query:$sql<br> ", $conn->errno); 
 	}
 
 }
 
 function eliminarPagos($movimiento_id,$conn){
-	$sql="DELETE pago_con_tarjeta WHERE movimiento_id=$movimiento_id";
-	$sql2="DELETE pagos_realizados where movimiento_id=$movimiento_id";
+	$sql="DELETE  FROM pago_con_tarjeta WHERE movimiento_id=$movimiento_id";
+	$sql2="DELETE FROM pagos_realizados where movimiento_id=$movimiento_id";
 
 	if(!$conn->query($sql) || !$conn->query($sql2))
 	{
 
-		 throw new Exception("MySQL error {$conn->error} <br> Query:<br>", $conn->errno); 
+		 throw new Exception("MySQL error {$conn->error} <br> Query:$sql $sql2<br>", $conn->errno); 
 	}
 }
 
