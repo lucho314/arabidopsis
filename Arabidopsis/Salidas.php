@@ -87,13 +87,14 @@ $query5= mysql_query($sql);
               <div class="tab-pane fade text-left" id="tab2default">
                   <div class="form-group">
                   <label for="concepto">Concepto:</label>
-                  <select class="form-control salida" required name="concepto_id" v-model="concepto_id">
+                  <select class="form-control salida  js-example-basic-single" required name="concepto_id" id="concepto_id" onchange="general.concepto_id=$(this).val()">
                     <option value="">Seleccione concepto</option>
                     <?php while ($fila = mysql_fetch_assoc($query3)): ?>
                                         <option value="<?= $fila["id"] ?>"> <?= $fila["descripcion"] ?> </option>
                                       <?php endwhile; ?>
                   </select>
                   <span class="help-block"></span>
+                  <input type="hidden" v-model="concepto_id" id="concepto_id_vm">
                 </div>
                   <br>
         
@@ -107,6 +108,7 @@ $query5= mysql_query($sql);
                             <th>Precio U.</th>
                             <th>Cantidad</th>  
                              <th>Total</th>
+                             <th></th>
                           </tr> 
                         </thead>
                        
@@ -259,7 +261,7 @@ $query5= mysql_query($sql);
 
                                 <div class="form-group">
                                 	<label for="monto" class="control-label">Monto total:</label>
-                                    <input class="form-control pago" required name="monto" v-model="monto" placeholder="Monto total" type="number" step="any"  min="1" max="5" id="monto_total"/>
+                                    <input class="form-control pago" required name="monto" v-model="monto" placeholder="Monto total" type="number" step="any"  min="1"  id="monto_total"/>
                                     <span class="help-block"></span>
                                 </div>
                            
@@ -331,6 +333,16 @@ var general = new Vue({
 	 		salida=Object.assign({}, this.$data);
 	 		salida['pagos']=pagos;
       salida['items']=items;
+      if(salida.pagos.length==0 || salida.items.length==0)
+      {
+        alert("Error en los datos, revise");
+        return false;
+      }
+      if(this.monto!=this.monto_saldado)
+      {
+        alert("Error, no coinciden monto total con monto saldado");
+        return false;
+      }
 	 		$.ajax({
 	 			type: "POST",
             url: "guardarSalidas.php",
@@ -396,6 +408,7 @@ var general = new Vue({
            console.log(this.proveedor_id);
            $("#proveedor_select").val(this.proveedor_id).change();
            $("#fecha").val(this.fecha);
+           $("#concepto_id").val(this.concepto_id);
         }
 		   
 	 },
@@ -435,6 +448,7 @@ var Items = new Vue({
           if(validarHtml($(document).find(".item"))){
             items.push(aux);
             general.monto=parseFloat(general.monto)+this.total;
+            vm.monto_a_saldar=general.monto-general.monto_saldado;
             actualizarItems();
              $("#guardar-item").click();
             this.resetDefault();
@@ -447,8 +461,16 @@ var Items = new Vue({
           this.precio="";
           this.cantidad='';
           this.total='';
-       }
+       },
 
+       eliminarItem(index){
+
+          var i=items[index];
+          general.monto-=i.total;
+          vm.monto_a_saldar=general.monto-general.monto_saldado;
+          items.pop(index);
+          actualizarItems();
+       }
     }
 
 });
@@ -471,6 +493,7 @@ var vm = new Vue({
         	tarjeta_id:"",
           banco_id:"",
           bancoDescripcion:"",
+          monto_a_saldar:general.monto-general.monto_saldado
     	},
         watch: {
         	monto: function (val) {
@@ -522,10 +545,16 @@ var vm = new Vue({
 		    	event.preventDefault()
 		    	aux= Object.assign({}, this.$data);
 		    	aux["index"]=pagos.length;
+          if(this.monto>this.monto_a_saldar)
+          {
+            alert("No puede superar el monto total a saldar");
+            return false;
+          }
           if(validarHtml($(document).find(".pago")))
           {
             pagos.push(aux);
             general.monto_saldado=parseFloat(general.monto_saldado)+parseFloat(this.monto);
+            vm.monto_a_saldar=general.monto-general.monto_saldado;
             actualizarPagos();
             $("#guardar-pago").click();
             this.resetDefault();
@@ -539,7 +568,10 @@ var vm = new Vue({
 		    },
 		    eliminarPago(i)
 		    {
-		    	pagos.pop(i);
+		    	var p=pagos[i];
+          general.monto_saldado-=p.monto;
+          vm.monto_a_saldar=general.monto-general.monto_saldado;
+          pagos.pop(i);
 		    	actualizarPagos();
 		    },
 
@@ -578,7 +610,11 @@ $("#items").DataTable({
           {"data": "descripcion","defaultContent": ""},
           {"data": "precio","defaultContent": ""},
           {"data": "cantidad","defaultContent": ""},
-          {"data": "total","defaultContent": ""}
+          {"data": "total","defaultContent": ""},
+          {"data": function(data){
+                        return '<a href="javascript:Items.eliminarItem('+data.index+')"><i class="glyphicon glyphicon-trash"></i></a>';
+
+                     }},
         ]
        
 
@@ -631,8 +667,7 @@ function actualizarPagos(){
 
 $("#btn-nuevo-pago").click(function(){
 
-  var monto_a_saldar=general.monto-general.monto_saldado;
-  $("#monto_total").attr("max",monto_a_saldar);
+  
   $("#contact").modal("toggle");
 
 
@@ -678,37 +713,14 @@ function validate($obj)
     };
 
 
- function  disableOrEnabledBtn(clase,$btn){
-   $(document).find("."+clase).change(function(){
-    var b=true;
-    $("."+clase).each(function(){
-      if($(this).val()==""){
-        console.log("aca",$(this).attr("name"));
-        b=false;
-        $btn.attr("disabled", true);
-        return false;
-
-      }
-
-    });
-
-      if(b)
-      {
-          $btn.attr("disabled", !validate($("."+clase)));
-
-      }
-    })
-
-
-};
+ 
 
 $("#fecha").change(function(){
 
   var fecha=$(this).val();
   general.fecha=fecha;
 })
-disableOrEnabledBtn("item",$("#guardar-item"));
-//disableOrEnabledBtn("pago",$("#guardar-pagos"));
+
 
 
 

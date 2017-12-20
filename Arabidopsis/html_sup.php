@@ -138,10 +138,10 @@ Extraemos los modulos que tiene habilitado el usuario logueado
 
 
         <script type="text/javascript">
-            $('select').select2();
+            $('select').select2({ width: 'resolve' });
 
             $(document).ready(function () {
-                $(".js-example-basic-single").select2();
+                $(".js-example-basic-single").select2({  width: '100%'});
             });
 
 
