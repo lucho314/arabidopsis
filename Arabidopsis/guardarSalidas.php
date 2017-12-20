@@ -54,26 +54,18 @@ try {
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-  $sql_movimiento="INSERT INTO `movimientos` (`descripcion`, `tipo_movimiento_id`, `concepto_movimiento_id`, `fecha`, `proveedor_id`, `monto_en_pesos`, `nro_comprobante_o_transaccion`, `nro_factura`, `observaciones`)
- VALUES (
- 		'".$data['detalle']."',
- 		2,
- 		'".$data['concepto_id']."',
- 		'".date_transform_usa($data['fecha'])."',
- 		'".$data['proveedor_id']."',
- 		'".$data['monto']."',
- 		'".$data['nro_comprobante']."',
- 		'".$data['nro_factura']."',
- 		'".$data['observaciones']."'
-)";
-
-if(!$mysqli->query($sql_movimiento))
+if($data["id"]!=0)
 {
-	 throw new Exception("MySQL error $mysqli->error <br> Query:<br> $sql_movimiento", $msqli->errno); 
+	$movimiento_id=actualizarMovimiento($data,$mysqli);
+	eliminarItems($movimiento_id,$mysqli);
+	eliminarPagos($movimiento_id,$mysqli);
+
+}
+else{
+		$movimiento_id= incertMovimientos($data,$mysqli);	
 }
 
 
-$movimiento_id= $mysqli->insert_id;
 $_SESSION["movimiento_id"]=$movimiento_id;
 $_SESSION["nro_factura"]=$data['nro_factura'];
 $_SESSION["fecha"]=$data['fecha'];
@@ -81,57 +73,10 @@ $_SESSION["fecha"]=$data['fecha'];
 $_SESSION["nro_comprobante"]=$data['nro_comprobante'];
 saveItems($data['items'],$movimiento_id,$mysqli);
 
-foreach ($data["pagos"] as $value) {
 
-	if($value['forma_pago']!="5")
-	{
-		$value['cuotas']="NULL";
-		$value['cuota_uno']="NULL";
-		$value['otras_cuotas']="NULL";
-
-	}
-	else
-		$value['tipo_de_transaccion_id']=$value['tarjeta_id'];
-
-	 $sql_pagos="INSERT INTO `pagos_realizados` (`movimiento_id`, `forma_de_pago_id`,tipo_de_transaccion_id, `monto`, `cantidad_cuotas`, `monto_cuota_uno`, `monto_demas_cuotas`,banco_id) 
-		VALUES (
-				$movimiento_id,
-			".$value['forma_pago'].",
-			".$value['tipo_de_transaccion_id'].",
-			".$value['monto'].",
-			".$value['cuotas'].",
-			".$value['cuota_uno'].",
-			".$value['otras_cuotas'].",
-			".$value['banco_id']."
-		)";
-
-	if(!$mysqli->query($sql_pagos))
-	{
-
-		 throw new Exception("MySQL error $mysqli->error <br> Query:<br> $sql_pagos", $msqli->errno); 
-	}
-	$pagoid=$mysqli->insert_id;
+incertPagos($data,$movimiento_id,$mysqli);
 
 
-	if($value['forma_pago']=="5")
-	{
-		$sql_tarjetas="INSERT INTO `pago_con_tarjeta` (`id`,`pago_realizado_id`, `tarjeta_id`, `monto`, `numero_cuota`)
-				VALUES (NULL,$pagoid,".$value['tarjeta_id'].",".$value['cuota_uno'].",1)";
-		for($i=1; $i<$value['cuotas']; $i++)
-		{
-			$sql_tarjetas.=",(NULL,$pagoid,".$value['tarjeta_id'].",".$value['otras_cuotas'].",".($i+1).")";
-		}
-
-		 if(!$mysqli->query($sql_tarjetas))
-			{
-				
-				
-				 throw new Exception("MySQL error $mysqli->error <br> Query:<br> $sql_tarjetas", $msqli->errno); 
-				
-			}
-	}
-
-}
 	echo json_encode(['exito']);
 	$mysqli->commit();
 
@@ -165,6 +110,139 @@ function saveItems($items,  $movimiento_id, $conn){
 			}
 	}
 
+}
+
+function incertMovimientos($data,$conn){
+	//print_r($data);
+		$sql_movimiento="INSERT INTO `movimientos` (`descripcion`, `tipo_movimiento_id`, `concepto_movimiento_id`, `fecha`, `proveedor_id`, `monto_en_pesos`, `nro_comprobante_o_transaccion`, `nro_factura`, `observaciones`)
+	 VALUES (
+	 		'".$data['detalle']."',
+	 		2,
+	 		'".$data['concepto_id']."',
+	 		'".date_transform_usa($data['fecha'])."',
+	 		'".$data['proveedor_id']."',
+	 		'".$data['monto']."',
+	 		'".$data['nro_comprobante']."',
+	 		'".$data['nro_factura']."',
+	 		'".$data['observaciones']."'
+	)";
+
+	if(!$conn->query($sql_movimiento))
+	{
+	 throw new Exception("MySQL error $mysqli->error <br> Query:<br> $sql_movimiento", $conn->errno); 
+	}
+
+	return $conn->insert_id;
+
+}
+
+
+
+
+
+
+
+function incertTarjetas($value,$pagoid,$movimiento_id,$conn){
+
+	$sql_tarjetas="INSERT INTO `pago_con_tarjeta` (`id`,`pago_realizado_id`, `tarjeta_id`, `monto`, `numero_cuota`,movimiento_id)
+				VALUES (NULL,$pagoid,".$value['tarjeta_id'].",".$value['cuota_uno'].",1)";
+		for($i=1; $i<$value['cuotas']; $i++)
+		{
+			$sql_tarjetas.=",(NULL,$pagoid,".$value['tarjeta_id'].",".$value['otras_cuotas'].",".($i+1).",$movimiento_id)";
+		}
+
+		 if(!$conn->query($sql_tarjetas))
+			{
+				
+				
+				 throw new Exception("MySQL error $mysqli->error <br> Query:<br> $sql_tarjetas", $conn->errno); 
+				
+			}
+}
+
+
+
+function incertPagos($data,$movimiento_id,$conn){
+
+	foreach ($data["pagos"] as $value) {
+
+	if($value['forma_pago']!="5")
+	{
+		$value['cuotas']="NULL";
+		$value['cuota_uno']="NULL";
+		$value['otras_cuotas']="NULL";
+
+	}
+	if($value['forma_pago']!="4")
+	{
+		$value['banco_id']="NULL";
+	}
+	else
+		$value['tipo_de_transaccion_id']=$value['tarjeta_id'];
+
+	 $sql_pagos="INSERT INTO `pagos_realizados` (`movimiento_id`, `forma_de_pago_id`,tipo_de_transaccion_id, `monto`, `cantidad_cuotas`, `monto_cuota_uno`, `monto_demas_cuotas`,banco_id) 
+		VALUES (
+				$movimiento_id,
+			".$value['forma_pago'].",
+			".$value['tipo_de_transaccion_id'].",
+			".$value['monto'].",
+			".$value['cuotas'].",
+			".$value['cuota_uno'].",
+			".$value['otras_cuotas'].",
+			".$value['banco_id']."
+		)";
+
+	if(!$conn->query($sql_pagos))
+	{
+
+		 throw new Exception("MySQL error $mysqli->error <br> Query:<br>", $conn->errno); 
+	}
+	$pagoid=$conn->insert_id;
+
+
+	if($value['forma_pago']=="5")
+	{
+		incertTarjetas($value,$pagoid,$movimiento_id,$conn);
+	}
+
+}
+
+
+}
+
+
+function actualizarMovimiento($data,$conn)
+{
+
+	$sql="UPDATE movimientos SET `descripcion`='".$data['detalle']."', `tipo_movimiento_id`=2, `concepto_movimiento_id`='".$data['concepto_id']."', `fecha`='".date_transform_usa($data['fecha'])."', `proveedor_id`='".$data['proveedor_id']."', `monto_en_pesos`='".$data['monto']."', `nro_comprobante_o_transaccion`='".$data['nro_comprobante']."', `nro_factura`='".$data['nro_factura']."', `observaciones`='".$data['observaciones']."' where id={$data["id"]}";
+	if(!$conn->query($sql))
+	{
+
+		 throw new Exception("MySQL error {$conn->error} <br> Query:<br>", $conn->errno); 
+	}
+
+	return $data["id"];
+}
+
+function eliminarItems($movimiento_id,$conn){
+	$sql="DELETE items where movimiento_id=$movimiento_id";
+	if(!$conn->query($sql))
+	{
+
+		 throw new Exception("MySQL error {$conn->error} <br> Query:<br> ", $conn->errno); 
+	}
+
+}
+
+function eliminarPagos($movimiento_id,$conn){
+	$sql="DELETE pago_con_tarjeta WHERE movimiento_id=$movimiento_id";
+	$sql2="DELETE pagos_realizados where movimiento_id=$movimiento_id";
+
+	if(!$conn->query($sql) || !$conn->query($sql2))
+	{
+
+		 throw new Exception("MySQL error {$conn->error} <br> Query:<br>", $conn->errno); 
+	}
 }
 
 

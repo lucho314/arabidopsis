@@ -194,7 +194,7 @@ $query5= mysql_query($sql);
                            
                         </div>  
                          <div class="modal-footer">
-                           <button  class="btn btn-success" id="guardar-item"  v-on:click="guardarItem($event)"  data-dismiss="modal" disabled>Aceptar</button>
+                           <button  class="btn btn-success"  id="guardar" v-on:click="guardarItem($event)">Aceptar</button>
                          
                            
                         </div>
@@ -302,7 +302,7 @@ var items=[];
 var general = new Vue({
 	 el: '#general',
 	 data:{
-    id:"",
+    id:"0",
 	 	concepto_id:"",
 	 	detalle:"",
 	 	proveedor_id:"",
@@ -341,7 +341,7 @@ var general = new Vue({
             {
 
               <?php if(!isset($_GET["movimiento_id"])): ?>
-              if($('#fileInput').val=="")
+              if($('#fileInput').val()=="")
               {
                     swal({
                         title: "Gravado",
@@ -427,15 +427,17 @@ var Items = new Vue({
     methods:{
 
        guardarItem(event){
-
           event.preventDefault()
           aux= Object.assign({}, this.$data);
+          console.log(aux);
           aux["index"]=items.length;
+
           items.push(aux);
           general.monto=parseFloat(general.monto)+this.total;
           actualizarItems();
           this.resetDefault();
        },
+
        resetDefault(){
 
            this.descripcion="";
@@ -740,7 +742,7 @@ if(isset($_GET["movimiento_id"]))
 
     $movimiento_id=$_GET["movimiento_id"];
    $sql="select
-              `concepto_movimiento_id` as concepto_id,
+               id,`concepto_movimiento_id` as concepto_id,
               `fecha`,
               `proveedor_id`,
               `monto_en_pesos` as monto,
