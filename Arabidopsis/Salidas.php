@@ -28,11 +28,11 @@ $query5= mysql_query($sql);
             <div class="panel with-nav-tabs panel-default">
                 <div class="panel-heading">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#tab1default" data-toggle="tab">Default 1</a></li>
-                            <li class="items"><a href="#tab2default" data-toggle="tab">Default 2</a></li>
-                            <li class="pagos"><a href="#tab3default" data-toggle="tab">Default 3</a></li>
+                            <li class="active"><a href="#tab1default" data-toggle="tab">General</a></li>
+                            <li class="items"><a href="#tab2default" data-toggle="tab">Items</a></li>
+                            <li class="pagos"><a href="#tab3default" data-toggle="tab">Pagos</a></li>
                             <?php if(!isset($_GET["movimiento_id"])): ?>
-                            <li class="pagos"><a href="#tab4default" data-toggle="tab">Default 3</a></li>
+                            <li class="pagos"><a href="#tab4default" data-toggle="tab">Comprobante</a></li>
                              <?php endif; ?>
                             <div style="float: right">
                             	<a class="btn btn-danger" href="ddjj_principal.aspx" style="color: white">CANCELAR</a> &nbsp;
@@ -195,7 +195,7 @@ $query5= mysql_query($sql);
                         </div>  
                          <div class="modal-footer">
                            <button  class="btn btn-success"  id="guardar" v-on:click="guardarItem($event)">Aceptar</button>
-                         
+                         <button  class="btn btn-success" style="display: none" id="guardar-item"   data-dismiss="modal">Aceptar</button>
                            
                         </div>
                     </div>
@@ -427,15 +427,18 @@ var Items = new Vue({
     methods:{
 
        guardarItem(event){
+        console.log("asd");
           event.preventDefault()
           aux= Object.assign({}, this.$data);
           console.log(aux);
           aux["index"]=items.length;
-
-          items.push(aux);
-          general.monto=parseFloat(general.monto)+this.total;
-          actualizarItems();
-          this.resetDefault();
+          if(validarHtml($(document).find(".item"))){
+            items.push(aux);
+            general.monto=parseFloat(general.monto)+this.total;
+            actualizarItems();
+             $("#guardar-item").click();
+            this.resetDefault();
+          }
        },
 
        resetDefault(){
