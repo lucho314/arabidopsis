@@ -64,7 +64,7 @@ $bandera = 0;
                     </div>
     <div class="panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title"><strong><?= build_friendly_names('Proveedores / Colaboradores') ?></strong></h3>
+            <h3 class="panel-title"><strong><?= build_friendly_names('Personas') ?></strong></h3>
         </div>
         <div class="panel-body">
             <table align="center" class="table table-responsive">
