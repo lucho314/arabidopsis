@@ -7,7 +7,7 @@ include("scaffold.php");
 echo $msg;
 $bandera = 0;
 ?>
-
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   
 
 <!--Una tabla por menú con restricción de acceso según el nivel de usuario.-->
@@ -15,41 +15,61 @@ $bandera = 0;
 
     <div class="panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title"><strong><?= build_friendly_names('GESTIÓN') ?></strong></h3>
+            <h3 class="panel-title"><strong><?= build_friendly_names('Movimientos') ?></strong></h3>
         </div>
         <div class="panel-body">
             <table align="center" class="table table-responsive">
                 <tr>
                     <td align="center"> 
                         <div class="btn-group">
-                            <button type="button" class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown" style="text-shadow: black 5px 3px 3px;"> 
+                        <form id="movimientos" style="display:inline" method="post" action="movimientos.php" name="newrecord_">
+                                    <input type="hidden" value="new" name="variablecontrolposnavegacion"></form>
+                            <button type="button" onclick="javascript:$('#movimientos').submit()" class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown" style="text-shadow: black 5px 3px 3px;"> 
                                 <font color="#ffffff">        
-                                <span style="font-size: 40px;" class="glyphicon glyphicon-usd"></span>
-                                <?= build_friendly_names('Movimientos') ?>  &nbsp<span class="caret"></span>
+                                <span style="font-size: 40px;" class="fa fa-plus" aria-hidden="true"></span>
+                                <?= build_friendly_names('Entrada') ?>  &nbsp</span>
                                 </font>
                             </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <form id="movimientos" style="display:inline" method="post" action="/movimientos.php" name="newrecord_">
-                                    <input type="hidden" value="new" name="variablecontrolposnavegacion"></form>
-                                <li><a href="javascript:$('#movimientos').submit()"><?= build_friendly_names('Alta') ?></a></li>
-                                <li><a href="movimientos.php"><?= build_friendly_names('Listado') ?></a></li>
-                            </ul>    
+                           
+                        </div>
+                    </td>
+                      <td align="center">
+                        <div class="btn-group">
+                            <a type="button" class="btn btn-primary btn-lg dropdown-toggle" href="salidas.php" style="text-shadow: black 5px 3px 3px;"> 
+                                <font color="#ffffff">        
+                                <span style="font-size: 40px;"  class="fa fa-minus" aria-hidden="true"></span>
+                                <?= build_friendly_names('Salida') ?> &nbsp<span></span>
+                                </font>
+                            </a>
+                            
                         </div>
                     </td>
                     <td align="center">
                         <div class="btn-group">
                             <button type="button" class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown" style="text-shadow: black 5px 3px 3px;"> 
-                                <font color="#ffffff">        
-                                <span style="font-size: 40px;" class="glyphicon glyphicon-oil"></span>
-                                <?= build_friendly_names('Proveedores') ?> &nbsp<span class="caret"></span>
+                                <font color="#ffffff"> 
+                                <span class="fa-stack fa-lg" tyle="font-size: 40px;"><i class="fa fa-square-o fa-stack-2x"></i><i class="fa fa-list-ul fa-stack-1x"></i></span>       
+                                <?= build_friendly_names('Reportes') ?> &nbsp<span class="caret"></span>
                                 </font>
                             </button>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="formulario_ciudad_paso_1.php?tabla_scaffold=proveedors"><?= build_friendly_names('Alta') ?></a></li>
-                                <li><a href="proveedors.php"><?= build_friendly_names('Listado') ?></a></li>
+                                <li><a href="reporteFiscal.php"><?= build_friendly_names('Reporte fiscal') ?></a></li>
+                                <li><a href="reporteContable.php"><?= build_friendly_names('Reporte contable') ?></a></li>
                             </ul>
                         </div>
                     </td>
+                    </tr>
+                    </table>
+                    </div>
+                    </div>
+    <div class="panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title"><strong><?= build_friendly_names('Proveedores / Colaboradores') ?></strong></h3>
+        </div>
+        <div class="panel-body">
+            <table align="center" class="table table-responsive">
+                <tr>
+                   
                     <td align="center">
                         <div class="btn-group">
                             <button type="button" class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown" style="text-shadow: black 5px 3px 3px;"> 
@@ -64,137 +84,17 @@ $bandera = 0;
                             </ul>
                         </div>
                     </td>
-                </tr>
-                <tr>
-                    <td align="center">
-                        <a href="productos.php">
-                            <button type="button" class="btn btn-primary btn-lg dropdown-toggle"  style="text-shadow: black 3px 3px 3px;"> 
-                                <font color="#ffffff">        
-                                <span style="font-size: 40px;" class="glyphicon glyphicon-apple"></span>
-                                <?= build_friendly_names('Productos') ?>
-                                </font>
-                            </button>
-                        </a>
-                    </td>
-                    <td align="center">
-                        <a href="stocks.php">
-                            <button type="button" class="btn btn-primary btn-lg dropdown-toggle"  style="text-shadow: black 5px 3px 3px;"> 
-                                <font color="#ffffff">        
-                                <span style="font-size: 40px;" class="glyphicon glyphicon-duplicate"></span>
-                                <?= build_friendly_names('Stock') ?>
-                                </font>
-                            </button>
-                        </a>
-                    </td>
-                    <td align="center">
-                        <a href="rubros.php">
-                            <button type="button" class="btn btn-primary btn-lg dropdown-toggle"  style="text-shadow: black 5px 3px 3px;"> 
-                                <font color="#ffffff">        
-                                <span style="font-size: 40px;" class="glyphicon glyphicon-briefcase"></span>
-                                <?= build_friendly_names('Rubros') ?>
-                                </font>
-                            </button>
-                        </a>
-                    </td>                
-                </tr>
-            </table>     
-        </div>
-    </div>
-<?php endif; ?>
-
-<?php if (in_array('EVENTOS', $modulos)): $bandera++; ?>
-    <div class="panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title"><strong><?= build_friendly_names('EVENTOS') ?></strong></h3>
-        </div>
-        <div class="panel-body">
-            <table align="center" class="table table-responsive">
-                <tr>
-                    <td align="center">
-
+                     <td align="center">
                         <div class="btn-group">
                             <button type="button" class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown" style="text-shadow: black 5px 3px 3px;"> 
                                 <font color="#ffffff">        
-                                <span style="font-size: 40px;" class="glyphicon glyphicon-blackboard"></span>
-                                <?= build_friendly_names('Salones') ?> &nbsp<span class="caret"></span>
+                                <span style="font-size: 40px;" class="fa fa-5x fa-shopping-cart"></span>
+                                <?= build_friendly_names('Proveedores') ?>  &nbsp<span class="caret"></span>
                                 </font>
                             </button>
                             <ul class="dropdown-menu" role="menu">
-                                <form id="newrecord_movimiento" style="display:inline" method="post" action="/salons.php" name="newrecord_">
-                                    <input type="hidden" value="new" name="variablecontrolposnavegacion"></form>
-                                <li><a href="formulario_ciudad_paso_1.php?tabla_scaffold=salons"><?= build_friendly_names('Alta') ?></a></li>
-                                <li><a href="salons.php"><?= build_friendly_names('Listado') ?></a></li>
-                            </ul>    
-                        </div>
-                    </td>
-                    <td align="center">
-
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown" style="text-shadow: black 5px 3px 3px;"> 
-                                <font color="#ffffff">        
-                                <span style="font-size: 40px;" class="glyphicon glyphicon-header"></span>
-                                <?= build_friendly_names('Alojamiento') ?> &nbsp<span class="caret"></span>
-                                </font> 
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="formulario_ciudad_paso_1.php?tabla_scaffold=alojamientos"><?= build_friendly_names('Alta') ?></a></li>
-                                <li><a href="alojamientos.php"><?= build_friendly_names('Listado') ?></a></li>
-                            </ul>  
-                        </div>
-                    </td>
-                    <td>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown" style="text-shadow: black 5px 3px 3px;"> 
-                                <font color="#ffffff">        
-                                <span style="font-size: 40px;" class="glyphicon glyphicon-calendar"></span>
-                                <?= build_friendly_names('Eventos') ?> &nbsp<span class="caret"></span>
-                                </font>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-
-                                <li><a href="formulario_ciudad_paso_1.php?tabla_scaffold=eventos"><?= build_friendly_names('Nuevo evento') ?></a></li>
-                                <li><a href="eventos.php"><?= build_friendly_names('Listado') ?></a></li>
-                            </ul>    
-                        </div>
-
-
-                    </td>
-                </tr>
-            </table>     
-        </div>
-    </div>
-<?php endif; ?>
-
-<?php if (in_array('MEDIOS', $modulos)): $bandera++; ?>
-    <div class="panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title"><strong><?= build_friendly_names('MEDIOS') ?></strong></h3>
-        </div>
-        <div class="panel-body">
-            <table align="center" class="table table-responsive">
-                <tr>
-                    <td align="center">
-                        <a href="publicidad_maestros.php">
-                            <button type="button" class="btn btn-primary btn-lg dropdown-toggle" style="text-shadow: black 5px 3px 3px;"> 
-                                <font color="#ffffff">        
-                                <span style="font-size: 40px;" class="glyphicon glyphicon-bookmark"></span>
-                                <?= build_friendly_names('Publicidad') ?>
-                                </font>
-                            </button>
-                        </a>
-                    </td>
-                    <td align="center">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown" style="text-shadow: black 5px 3px 3px;"> 
-                                <font color="#ffffff">        
-                                <span style="font-size: 40px;" class="glyphicon glyphicon-facetime-video"></span>
-                                <?= build_friendly_names('Medios') ?> &nbsp<span class="caret"></span>
-                                </font>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-
-                                <li><a href="formulario_ciudad_paso_1.php?tabla_scaffold=medios"><?= build_friendly_names('Nuevo Medio') ?></a></li>
-                                <li><a href="medios.php"><?= build_friendly_names('Listado') ?></a></li>
+                                <li><a href="formulario_ciudad_paso_1.php?tabla_scaffold=proveedors"><?= build_friendly_names('Alta') ?></a></li>
+                                <li><a href="proveedors.php"><?= build_friendly_names('Listado') ?></a></li>
                             </ul>
                         </div>
                     </td>
@@ -202,71 +102,44 @@ $bandera = 0;
             </table>     
         </div>
     </div>
-<?php endif; ?>
-<?php if (in_array('VIAJES', $modulos)): $bandera++; ?>
-    <div class="panel-primary">
+     <div class="panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title"><strong><?= build_friendly_names('VIAJES') ?></strong></h3>
+            <h3 class="panel-title"><strong><?= build_friendly_names('Configuraciones') ?></strong></h3>
         </div>
         <div class="panel-body">
             <table align="center" class="table table-responsive">
                 <tr>
+                   
                     <td align="center">
- 
                         <div class="btn-group">
                             <button type="button" class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown" style="text-shadow: black 5px 3px 3px;"> 
                                 <font color="#ffffff">        
-                                <span style="font-size: 40px;" class="glyphicon glyphicon-plane"></span>
-                                <?= build_friendly_names('Viajes') ?> &nbsp<span class="caret"></span>
+                                <span style="font-size: 40px;" class="fa fa-5x fa-user"></span>
+                                <?= build_friendly_names('Usuarios') ?>  &nbsp<span class="caret"></span>
                                 </font>
                             </button>
                             <ul class="dropdown-menu" role="menu">
-                                <form id="newrecord_movimiento" style="display:inline" method="post" action="/salons.php" name="newrecord_">
-                                    <input type="hidden" value="new" name="variablecontrolposnavegacion"></form>
-                                <li><a href="formulario_ciudad_paso_1.php?tabla_scaffold=viajes"><?= build_friendly_names('Alta') ?></a></li>
-                                <li><a href="viajes.php"><?= build_friendly_names('Listado') ?></a></li>
-                            </ul>    
+                                <li><a href="usuarios.php?ban=nuevo"><?= build_friendly_names('Alta') ?></a></li>
+                                <li><a href="usuarios.php"><?= build_friendly_names('Listado') ?></a></li>
+                            </ul>
                         </div>
                     </td>
-                    <td align="center">
-
+                     <td align="center">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown" style="text-shadow: black 5px 3px 3px;"> 
-                                <font color="#ffffff">        
-                                <span style="font-size: 40px;" class="glyphicon glyphicon-tag"></span>
-                                <?= build_friendly_names('Viaticos y movilidad') ?> &nbsp<span class="caret"></span>
-                                </font> 
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <form id="viaticos" style="display:inline" method="post" action="/viaticos_y_movilidad.php" name="newrecord_">
-                                    <input type="hidden" value="new" name="variablecontrolposnavegacion"></form>
-                                <li><a href="javascript:$('#viaticos').submit()"><?= build_friendly_names('Alta') ?></a></li>
-                                <li><a href="viaticos_y_movilidad.php"><?= build_friendly_names('Listado') ?></a></li>
-                            </ul>  
-                        </div>
-                    </td>
-                    <td align="center">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown" style="text-shadow: black 5px 3px 3px;"> 
-                                <font color="#ffffff">        
-                                <span style="font-size: 40px;" class="glyphicon glyphicon-shopping-cart"></span>
-                                <?= build_friendly_names('Gastos') ?> &nbsp<span class="caret"></span>
+                            <a type="button" class="btn btn-primary btn-lg " href="upload.php" style="text-shadow: black 5px 3px 3px;"> 
+                                <font color="#ffffff">   
+                                <span style="font-size: 40px;" class="fa fa-5x fa-files-o"></span>
+                                <?= build_friendly_names('Archivos') ?>  &nbsp
                                 </font>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <form id="gastosccomprobantes" style="display:inline" method="post" action="/gastos_de_viaje.php" name="newrecord_">
-                                    <input type="hidden" value="new" name="variablecontrolposnavegacion"></form>
-                                <li><a href="javascript:$('#gastosccomprobantes').submit()"><?= build_friendly_names('Alta') ?></a></li>
-                                <li><a href="gastos_de_viaje.php"><?= build_friendly_names('Listado') ?></a></li>
-                            </ul>    
+                            </a>
+                           
                         </div>
-
-
                     </td>
                 </tr>
             </table>     
         </div>
     </div>
+
     <?php
 endif;
 if ($bandera === 0) {

@@ -34,57 +34,7 @@ $fin=  $ultimo_dia."-". date("m")."-".date("Y");
             </ul>    
         </div>
     <?php endif; ?>
-    <?php if (in_array('EVENTOS', $modulos)): ?>
-        <div class="btn-group">
-            <button type="button" class="btn btn-primary dropdown-toggle"
-                    data-toggle="dropdown">
-                <?= build_friendly_names('EVENTOS') ?> <span class="caret"></span>
-            </button>
-
-            <ul class="dropdown-menu" role="menu">
-                <li><a href="formulario_ciudad_paso_1.php?tabla_scaffold=salons"> <?= build_friendly_names('Nuevo_salón') ?></a></li>
-                <li><a href="salons.php"><?= build_friendly_names('Listar_salones') ?></a></li>
-                <li class="divider"></li>
-                <li><a href="formulario_ciudad_paso_1.php?tabla_scaffold=alojamientos"><?= build_friendly_names('Nuevo_alojamiento') ?></a></li>
-                <li><a href="alojamientos.php"><?= build_friendly_names('Listar_alojamientos') ?></a></li>
-                <li class="divider"></li>
-                <li><a href="formulario_ciudad_paso_1.php?tabla_scaffold=eventos"><?= build_friendly_names('Nuevo_evento') ?></a></li>
-                <li><a href="eventos.php"><?= build_friendly_names('Listar_Eventos') ?></a></li>
-            </ul>    
-        </div>
-    <?php endif; ?>
-    <?php if (in_array('MEDIOS', $modulos)): ?>
-        <div class="btn-group">
-            <button type="button" class="btn btn-primary dropdown-toggle"
-                    data-toggle="dropdown">
-                <?= build_friendly_names('MEDIOS') ?> <span class="caret"></span>
-            </button>
-
-            <ul class="dropdown-menu" role="menu">
-                <li><a href="formulario_ciudad_paso_1.php?tabla_scaffold=medios"><?= build_friendly_names('Nuevo_medio') ?></a></li>
-                <li><a href="medios.php"><?= build_friendly_names('Listar_medios') ?></a></li>
-                <li class="divider"></li>
-                <li><a href="publicidad_maestros.php"><?= build_friendly_names('Publicidad') ?></a></li>    
-            </ul>    
-        </div>
-    <?php endif; ?>
-
-    <?php if (in_array('VIAJES', $modulos)): ?>
-        <div class="btn-group">
-            <button type="button" class="btn btn-primary dropdown-toggle"
-                    data-toggle="dropdown">
-                <?= build_friendly_names('VIAJES') ?> <span class="caret"></span>
-            </button>
-
-            <ul class="dropdown-menu" role="menu">
-                <li><a href="formulario_ciudad_paso_1.php?tabla_scaffold=viajes"><?= build_friendly_names('Nuevo_viaje') ?></a></li>
-                <li><a href="viajes.php"><?= build_friendly_names('Listar_viajes') ?></a></li>
-                <li class="divider"></li>
-                <li><a href="viaticos_y_movilidad.php"><?= build_friendly_names('Viaticos_y_movimienos') ?></a></li>
-                <li><a href="gastos_de_viaje.php"><?= build_friendly_names('Gastos') ?></a></li>
-            </ul>    
-        </div>
-    <?php endif; ?>
+    
 
     <?php if (in_array('REPORTES', $modulos)): ?>
         <div class="btn-group">

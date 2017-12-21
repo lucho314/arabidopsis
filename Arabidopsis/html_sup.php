@@ -141,7 +141,7 @@ Extraemos los modulos que tiene habilitado el usuario logueado
             $('select').select2({ width: 'resolve' });
 
             $(document).ready(function () {
-                $(".js-example-basic-single").select2({  width: '100%'});
+                $(".js-example-basic-single").select2();
             });
 
 

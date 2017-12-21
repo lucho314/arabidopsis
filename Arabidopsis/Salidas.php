@@ -86,8 +86,8 @@ $query5= mysql_query($sql);
               </div>
               <div class="tab-pane fade text-left" id="tab2default">
                   <div class="form-group">
-                  <label for="concepto">Concepto:</label>
-                  <select class="form-control salida  js-example-basic-single" required name="concepto_id" id="concepto_id" onchange="general.concepto_id=$(this).val()">
+                  <label for="concepto"  class="control-label">Concepto:</label>
+                  <select class="form-control salida  select" required name="concepto_id" id="concepto_id" onchange="general.concepto_id=$(this).val()">
                     <option value="">Seleccione concepto</option>
                     <?php while ($fila = mysql_fetch_assoc($query3)): ?>
                                         <option value="<?= $fila["id"] ?>"> <?= $fila["descripcion"] ?> </option>
@@ -745,7 +745,7 @@ function guardarFile(){
 }
 
 
-
+$(".select").select2({width: '100%'});
 
 
 

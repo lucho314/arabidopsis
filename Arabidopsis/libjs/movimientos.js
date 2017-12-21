@@ -3,6 +3,7 @@ $(function () {
     $('#forma_de_pago_id').addClass("validar-select");
     $('#descripcion').prop('required', false);
     $('.tabla_descripcion').hide();
+    $(".tabla_tipo_movimiento_id").hide();
     switch (accion)
     {
         case 'list':
