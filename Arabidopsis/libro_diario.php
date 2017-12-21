@@ -15,10 +15,7 @@ $sql="select fecha,descripcion,flujo,entrada,salida,'' as saldo from
                 INNER JOIN concepto_movimientos ct on ct.id=m.concepto_movimiento_id   
                 where m.tipo_movimiento_id=1  
                 union 
-                select fecha,ct.descripcion,forma_de_pago_id,'' as entrada,monto as salida,m.tipo_movimiento_id, fp.descripcion as 'flujo' from movimientos as m 
-                INNER JOIN forma_de_pagos fp on fp.id=m.forma_de_pago_id 
-                INNER JOIN concepto_movimientos ct on ct.id=m.concepto_movimiento_id   
-                where m.tipo_movimiento_id=2 
+                select fecha,concepto descripcion,forma_de_pago_id,'' entrada,Pagado2 salida,2 tipo_movimiento_id, tipo_pago flujo from reporte_contable 
                 ) as alias 
         WHERE fecha BETWEEN '" . $fecha_inicio . "' AND '" . $fecha_fin . "' ";
 

@@ -1,0 +1,2 @@
+INSERT INTO `pagos_realizados`(`movimiento_id`, `forma_de_pago_id`, `tipo_de_transaccion_id`, `banco_id`, `monto`) 
+select id,forma_de_pago_id,tipo_de_transaccion_id,banco_id,monto_en_pesos from movimientos where `tipo_movimiento_id`=2 and `forma_de_pago_id`<>5 and colaborador_id is not null

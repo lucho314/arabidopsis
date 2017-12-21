@@ -31,6 +31,5 @@ use
 	->leftJoin( 'concepto_movimientos', 'concepto_movimientos.id', '=', 'movimientos.concepto_movimiento_id')
 	->leftJoin( 'proveedors', 'proveedors.id', '=', 'movimientos.proveedor_id')
 	->leftJoin( 'archivos', 'archivos.descripcion', '=', 'concat("Movimiento","_",movimientos.id)')
-	->where("movimientos.id",528,">")
 	->process($_POST)
 	->json();

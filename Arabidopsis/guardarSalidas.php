@@ -145,7 +145,7 @@ function incertMovimientos($data,$conn){
 function incertTarjetas($value,$pagoid,$movimiento_id,$conn){
 
 	$sql_tarjetas="INSERT INTO `pago_con_tarjeta` (`id`,`pago_realizado_id`, `tarjeta_id`, `monto`, `numero_cuota`,movimiento_id)
-				VALUES (NULL,$pagoid,".$value['tarjeta_id'].",".$value['cuota_uno'].",1)";
+				VALUES (NULL,$pagoid,".$value['tarjeta_id'].",".$value['cuota_uno'].",1,$movimiento_id)";
 		for($i=1; $i<$value['cuotas']; $i++)
 		{
 			$sql_tarjetas.=",(NULL,$pagoid,".$value['tarjeta_id'].",".$value['otras_cuotas'].",".($i+1).",$movimiento_id)";
@@ -155,7 +155,7 @@ function incertTarjetas($value,$pagoid,$movimiento_id,$conn){
 			{
 				
 				
-				 throw new Exception("MySQL error $mysqli->error <br> Query:<br> $sql_tarjetas", $conn->errno); 
+				 throw new Exception("MySQL error {$conn->error} <br> Query:<br> $sql_tarjetas", $conn->errno); 
 				
 			}
 }
@@ -173,12 +173,13 @@ function incertPagos($data,$movimiento_id,$conn){
 		$value['otras_cuotas']="NULL";
 
 	}
-	if($value['forma_pago']!="4")
+	else
+		$value['tipo_de_transaccion_id']=$value['tarjeta_id'];
+	 if($value['forma_pago']!="4")
 	{
 		$value['banco_id']="NULL";
 	}
-	else
-		$value['tipo_de_transaccion_id']=$value['tarjeta_id'];
+	
 
 	 $sql_pagos="INSERT INTO `pagos_realizados` (`movimiento_id`, `forma_de_pago_id`,tipo_de_transaccion_id, `monto`, `cantidad_cuotas`, `monto_cuota_uno`, `monto_demas_cuotas`,banco_id) 
 		VALUES (
@@ -195,7 +196,7 @@ function incertPagos($data,$movimiento_id,$conn){
 	if(!$conn->query($sql_pagos))
 	{
 
-		 throw new Exception("MySQL error $mysqli->error <br> Query:<br>", $conn->errno); 
+		 throw new Exception("MySQL error $mysqli->error <br> Query:$sql_pagos<br>", $conn->errno); 
 	}
 	$pagoid=$conn->insert_id;
 
