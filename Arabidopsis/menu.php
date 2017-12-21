@@ -11,25 +11,28 @@ $fin=  $ultimo_dia."-". date("m")."-".date("Y");
         <div class="btn-group">
             <button type="button" class="btn btn-primary dropdown-toggle"
                     data-toggle="dropdown">
-                <?= build_friendly_names('GESTION') ?> <span class="caret"></span>
+                <?= build_friendly_names('MOVIMIENTOS') ?> <span class="caret"></span>
             </button>
 
             <ul class="dropdown-menu" role="menu">
-                <li role="presentation" class="dropdown-header"><?= build_friendly_names('Movimientos') ?></li>
-                <li><a href="movimientos.php"><?= build_friendly_names('ABM') ?></a></li>
+               <!-- <li role="presentation" class="dropdown-header"></li>-->
+                <li><a href="movimientos.php"><?= build_friendly_names('Entrada') ?></a></li>
+                <li><a href="movimientos.php"><?= build_friendly_names('Salida') ?></a></li>
 				<li><a href="movimientos_viejos.php"><?= build_friendly_names('Recibos atrasados') ?></a></li>
                 <li><a href="recibos_emitidos.php"><?= build_friendly_names('Recibos_Emitidos') ?></a></li>
                 <li class="divider"></li>
-                <li role="presentation" class="dropdown-header"><?= build_friendly_names('Stock') ?></li>
-                <li><a href="rubros.php"><?= build_friendly_names('Rubros') ?></a></li>
-                <li><a href="productos.php"><?= build_friendly_names('Productos') ?></a></li>
-                <li><a href="stocks.php"><?= build_friendly_names('Stock') ?></a></li>
-                <li role="presentation" class="dropdown-header"><?= build_friendly_names('Proveedores') ?></li>
-                <li><a href="formulario_ciudad_paso_1.php?tabla_scaffold=proveedors"><?= build_friendly_names('Alta_Proveedores') ?></a></li>
-                <li><a href="proveedors.php"><?= build_friendly_names('Listar_Proveedores') ?></a></li>
-                <li role="presentation" class="dropdown-header"><?= build_friendly_names('Colaboradores') ?></li>
-                <li><a href="formulario_ciudad_paso_1.php?tabla_scaffold=colaboradors"><?= build_friendly_names('Alta_Colaborador') ?></a></li>
-                <li><a href="colaboradors.php"><?= build_friendly_names('Listar_Colaboradores') ?></a></li>
+                <li role="presentation" class="dropdown-header"><?= build_friendly_names('Reportes') ?></li>
+                <li><a href="reporteFiscal.php"><?= build_friendly_names('Reporte fiscal') ?></a></li>
+                 <li><a href="reporteContable.php"><?= build_friendly_names('Reporte contable') ?></a></li>
+               <!-- <li><a href="rubros.php">Rubros></a></li>
+                <li><a href="productos.php">Productos'</a></li>
+                <li><a href="stocks.php">Stock'</a></li>
+                <li role="presentation" class="dropdown-header">Proveedores</li>
+                <li><a href="formulario_ciudad_paso_1.php?tabla_scaffold=proveedors">Alta_Proveedores></a></li>
+                <li><a href="proveedors.php">Listar_Proveedores</a></li>
+                <li role="presentation" class="dropdown-header">Colaboradores></li>
+                <li><a href="formulario_ciudad_paso_1.php?tabla_scaffold=colaboradors">Alta_Colaborador></a></li>
+                <li><a href="colaboradors.php">Listar_Colaboradores</a></li>-->
   
             </ul>    
         </div>
@@ -55,6 +58,28 @@ $fin=  $ultimo_dia."-". date("m")."-".date("Y");
         </div>       
 
     <?php endif; ?>
+
+    <div class="btn-group">
+            <button type="button" class="btn btn-primary dropdown-toggle"
+                    data-toggle="dropdown">
+                <?= build_friendly_names('PERSONAS') ?> <span class="caret"></span>
+            </button>
+
+            <ul class="dropdown-menu" role="menu">
+             <li role="presentation" class="dropdown-header">Colaboradores</li>
+                <li><a href="empleados.php"><?= build_friendly_names('Nuevo colaborador') ?></a></li>
+                <li><a href="tipo_de_alojamientos.php"><?= build_friendly_names('Listado colaboradores') ?></a></li>
+                 <li class="divider"></li>
+                  <li role="presentation" class="dropdown-header">Proveedores</li>
+                <li><a href="tipo_de_medios.php"><?= build_friendly_names('Nuevo proveedor') ?></a></li>
+                <li><a href="tipo_de_difusions.php"><?= build_friendly_names('Lista proveedores') ?></a></li>
+                
+            </ul>    
+        </div> 
+
+
+
+
     <?php if (in_array('CONFIGURACIONES', $modulos)): ?>
         <div class="btn-group">
             <button type="button" class="btn btn-primary dropdown-toggle"
@@ -63,17 +88,10 @@ $fin=  $ultimo_dia."-". date("m")."-".date("Y");
             </button>
 
             <ul class="dropdown-menu" role="menu">
-                <li><a href="empleados.php"><?= build_friendly_names('Empleados') ?></a></li>
-                <li><a href="tipo_de_alojamientos.php"><?= build_friendly_names('Tipo_de_alojamiento') ?></a></li>
-                <li><a href="tipo_de_medios.php"><?= build_friendly_names('Tipo_de_medio') ?></a></li>
-                <li><a href="tipo_de_difusions.php"><?= build_friendly_names('Tipo_de_difusión') ?></a></li>
-                <li><a href="tipo_de_publicacions.php"><?= build_friendly_names('Tipo_de_publicación') ?></a></li>       
                 <li><a href="usuarios.php"><?= build_friendly_names('Usuarios') ?></a></li>
                 <li><a href="cambios.php"><?= build_friendly_names('Cambios') ?></a></li>
                  <li><a href="mensajes.php"><?= build_friendly_names('Mensaje') ?></a></li>
-                 <li><a href="upload.php"><?= build_friendly_names('Mensaje') ?></a></li>
-               <!-- <li><a href="modulos.php"><?= build_friendly_names('Modulos') ?></a></li> 
-                <li><a href="usuario_x_modulos.php"><?= build_friendly_names('Usuarios x módulo') ?></a></li> -->
+                 <li><a href="upload.php"><?= build_friendly_names('Archivos') ?></a></li>
             </ul>    
         </div>    
 
