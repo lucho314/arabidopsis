@@ -15,6 +15,10 @@ create   view reporte_contable as
 			WHEN 5 THEN concat(PT.monto,' saldo ', P.monto-(SELECT TotalPagadoConTarjeta(P.id,PT.fecha_imputacion)) ) else 
 			P.monto end 
 			as 'Pagado',
+            case P.forma_de_pago_id 
+			WHEN 5 THEN PT.monto  else P.monto end
+            as 'Pagado2'
+            ,
 		case P.forma_de_pago_id 
 			when 5 then PT.fecha_imputacion
             else M.fecha end 
@@ -26,7 +30,8 @@ create   view reporte_contable as
 			 as tipo_pago,
 			
 			 M.descripcion as detalle,
-             P.monto
+             P.monto,
+             P.forma_de_pago_id
 	FROM pagos_realizados P 
 		LEFT JOIN forma_de_pagos F on F.id=P.forma_de_pago_id 
 		LEFT JOIN movimientos M on M.id=P.movimiento_id 
@@ -37,7 +42,3 @@ create   view reporte_contable as
 		inner JOIN concepto_movimientos C on c.id=m.concepto_movimiento_id 
         inner join proveedors Pr on Pr.id=M.proveedor_id
 	
-
-
-	
-    
