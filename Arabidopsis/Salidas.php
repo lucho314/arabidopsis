@@ -408,7 +408,7 @@ var general = new Vue({
            console.log(this.proveedor_id);
            $("#proveedor_select").val(this.proveedor_id).change();
            $("#fecha").val(this.fecha);
-           $("#concepto_id").val(this.concepto_id);
+           $("#concepto_id").val(this.concepto_id).change();
         }
 		   
 	 },

@@ -20,8 +20,8 @@ header ("Location: index.php");
 exit;
 }
  //librerias a utilizar
- include_once("lib/connect_mysql.php");
- include_once("lib/funciones.php");
+ include_once("/lib/connect_mysql.php");
+ include_once("/lib/funciones.php");
  //.....................
 
 $usuario_nivel=$_SESSION['usuario_nivel'];

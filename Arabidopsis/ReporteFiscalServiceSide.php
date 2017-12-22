@@ -26,10 +26,13 @@ use
 		Field::inst( 'movimientos.monto_en_pesos'),
 		Field::inst( 'movimientos.nro_factura' ),
 		Field::inst( 'movimientos.observaciones'),
-		Field::inst( 'archivos.nombre')
+		Field::inst( 'archivos.nombre'),
+		Field::inst( 'movimientos.id')
 	)
 	->leftJoin( 'concepto_movimientos', 'concepto_movimientos.id', '=', 'movimientos.concepto_movimiento_id')
 	->leftJoin( 'proveedors', 'proveedors.id', '=', 'movimientos.proveedor_id')
 	->leftJoin( 'archivos', 'archivos.descripcion', '=', 'concat("Movimiento","_",movimientos.id)')
+	->where("movimientos.tipo_movimiento_id","2")
+	->where("movimientos.forma_de_pago_id","5","<>")
 	->process($_POST)
 	->json();

@@ -50,6 +50,10 @@ var table=$('#reporte').DataTable( {
         },
         serverSide: true,
         processing: true,
+        "columnDefs": [
+            { "orderable": false,"searchable": false, "targets": 5 },
+          
+            ],
         columns: [
             { data: "concepto_movimientos.descripcion" },
             { data: "movimientos.fecha",
@@ -61,10 +65,11 @@ var table=$('#reporte').DataTable( {
             { data: "proveedors.razon_social" },
             { data: "movimientos.monto_en_pesos" },
             { data: "movimientos.nro_factura" },
-            {data: "archivos.nombre", render:function(d){
-                var disabled=(d==null) ? "not-active" : "";
+            {data:function(data){
+                var disabled=(data.archivos.nombre==null) ? "not-active" : "";
                 
-                return '<a href="uploads/'+d+'" download  class="glyphicon glyphicon-save '+disabled+'"> </a>';
+                return '<a href="uploads/'+data.archivos.nombre+'" download  class="glyphicon glyphicon-save '+disabled+'"> </a>&nbsp&nbsp\n'+'<a href="salidas.php?movimiento_id='+data.movimientos.id+'"><i class="fa fa-eye" style="font-size:21px"> </i></a>&nbsp&nbsp\n'
+                     +'<a href="#"><i class="fa fa fa-trash" style="font-size:21px"></i></a>';
 
             }}
         ]

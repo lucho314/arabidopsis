@@ -3,7 +3,7 @@
 $tip = '';
 $msg = $_GET['mensaje'];
 include_once('html_sup_min.php');
-include_once('lib/connect_mysql.php');
+include_once('../lib/connect_mysql.php');
 include_once('lib/funciones.php');
 $date = new DateTime("-18 months");
 ?>

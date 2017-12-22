@@ -1,6 +1,6 @@
 <?php
 // Configuraci�n
-include_once("lib/connect_mysql.php");
+include_once("/lib/connect_mysql.php");
 // Nombre de la session (puede dejar este mismo)
 $usuarios_sesion="Arabidopsis";
 

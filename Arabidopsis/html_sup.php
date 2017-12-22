@@ -7,7 +7,7 @@ header ("Location: index.php");
 exit;
 }
 elseif ($_SESSION['usuario_nivel']==='2') {
-header ("Location: Siscolaborador/movimientos_colaborador.php");
+header ("Location: movimientos_colaborador.php");
 }
 
 ?>
@@ -188,7 +188,7 @@ Extraemos los modulos que tiene habilitado el usuario logueado
         <link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap.min.css">
         <link rel="stylesheet" href="DataTables-1.10.12/media/css/jquery.dataTables.min.css">
          <link rel="stylesheet" href="DataTables-1.10.12/media/css/buttons.dataTables.min.css">
-         
+         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
          
 
 	<script type="text/javascript" language="javascript" src="DataTables-1.10.12/pluggin/dataTables.buttons.min.js">

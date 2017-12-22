@@ -52,8 +52,8 @@ $fin=  $ultimo_dia."-". date("m")."-".date("Y");
                 <li><a href="reportes_paso_1.php?tipo_de_reporte=medios"><?= build_friendly_names('Medios_por_localidad') ?></a></li>
                  <li><a href="reportes_paso_1.php?tipo_de_reporte=gastos_de_viajes"><?= build_friendly_names('Gastos_por_viajes') ?></a></li>
                  <li><a href="libro_diario.php?forma_pago=2&fecha_inicio=<?= $inicio?>&fecha_fin=<?= $fin?>"><?= build_friendly_names('Flujo') ?></a></li>
-                <!-- <li><a href="libro_diario.php?fecha_inicio=<?= $inicio?>&fecha_fin=<?= $fin?>"><?= build_friendly_names('Libro diario') ?></a></li>-->
-                  <li><a href="libro_diario2.php?fecha_inicio=<?= $inicio?>&fecha_fin=<?= $fin?>"><?= build_friendly_names('Libro diario') ?></a></li>
+           
+                  
             </ul>    
         </div>       
 
