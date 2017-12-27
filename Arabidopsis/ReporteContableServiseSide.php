@@ -17,18 +17,17 @@ use
 /*
  * Example PHP implementation used for the join.html example
  */
- Editor::inst( $db, 'reporte_contable' )
+ Editor::inst( $db, 'reporte_contable_full' )
 	->field( 
-		Field::inst( 'reporte_contable.proveedor'),
-		Field::inst( 'reporte_contable.concepto'),
-		Field::inst( 'reporte_contable.nro_factura'),
-		Field::inst( 'reporte_contable.nro_comprobante_o_transaccion'),
-		Field::inst( 'reporte_contable.forma_de_pago'),
-		Field::inst( 'reporte_contable.monto' ),
-		Field::inst( 'reporte_contable.pagado'),
-		Field::inst( 'reporte_contable.fecha'),
-		Field::inst( 'reporte_contable.tipo_pago')
+		Field::inst( 'reporte_contable_full.persona'),
+		Field::inst( 'reporte_contable_full.concepto'),
+		Field::inst( 'reporte_contable_full.nro_factura'),
+		Field::inst( 'reporte_contable_full.nro_comprobante_o_transaccion'),
+		Field::inst( 'reporte_contable_full.forma_de_pago'),
+		Field::inst( 'reporte_contable_full.pagado'),
+		Field::inst( 'reporte_contable_full.fecha'),
+		Field::inst( 'reporte_contable_full.tipo_pago')
 	)
-	->where("reporte_contable.pagado","","!=")
+	->where("reporte_contable_full.pagado","","!=")
 	->process($_POST)
 	->json();

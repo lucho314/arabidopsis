@@ -47,20 +47,20 @@ var table=$('#reporte').DataTable( {
         serverSide: true,
         processing: true,
         columns: [
-                { data: "reporte_contable.fecha", render:function(data){
+                { data: "reporte_contable_full.fecha", render:function(data){
                  date= new Date(data);
                  date.setDate(date.getDate()+1);
                     return date.toLocaleDateString("arg");
                 } },
-            {data: "reporte_contable.nro_factura"},
-            { data: "reporte_contable.proveedor" },
-            { data: "reporte_contable.concepto" },
+            {data: "reporte_contable_full.nro_factura"},
+            { data: "reporte_contable_full.persona" },
+            { data: "reporte_contable_full.concepto" },
            
             
-            { data: "reporte_contable.forma_de_pago" },
-            { data: "reporte_contable.tipo_pago" },
+            { data: "reporte_contable_full.forma_de_pago" },
+            { data: "reporte_contable_full.tipo_pago" },
            // { data: "reporte_contable.monto" },
-            { data: "reporte_contable.pagado" }
+            { data: "reporte_contable_full.pagado" }
             
             
         ]

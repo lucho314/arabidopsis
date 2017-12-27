@@ -21,12 +21,10 @@ include "html_sup.php";
                             <tr>
                                 <th>Concepto</th>
                                 <th>Fecha</th>
-                                <th>Movimiento</th>
                                 <th>Proveedor</th>
-                                <th>Colaborador</th>
                                 <th>Monto</th>
                                 <th>Nro factura</th>
-                               
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                     </table>
@@ -44,7 +42,7 @@ include "html_sup.php";
 var table=$('#reporte').DataTable( {
         //dom: "Bfrtip",
         ajax: {
-            url: "ReporteFiscalServiceSide.php",
+            url: "SalidasServiceSide.php",
             type: 'POST',
             data:function(data){
                 return data;
@@ -52,10 +50,10 @@ var table=$('#reporte').DataTable( {
         },
         serverSide: true,
         processing: true,
-        "columnDefs": [
+       /* "columnDefs": [
             { "orderable": false,"searchable": false, "targets": 6 }
           
-            ],
+            ],*/
         columns: [
             { data: "concepto_movimientos.descripcion" },
             { data: "movimientos.fecha",
@@ -65,11 +63,16 @@ var table=$('#reporte').DataTable( {
                     date.setDate(date.getDate()+1);
                     return date.toLocaleDateString("es");
                 }},
-             { data: "tipo_movimientos.descripcion" },
             { data: "proveedors.razon_social" },
-            { data: "colaboradors.razon_social" },
             { data: "movimientos.monto_en_pesos" },
-            { data: "movimientos.nro_factura" }
+            { data: "movimientos.nro_factura" },
+             {data:function(data){
+                var disabled=(data.archivos.nombre==null) ? "not-active" : "";
+                
+                return '<a href="uploads/'+data.archivos.nombre+'" download  class="glyphicon glyphicon-save '+disabled+'"> </a>&nbsp&nbsp\n'+'<a href="salidas.php?movimiento_id='+data.movimientos.id+'"><i class="fa fa-eye" style="font-size:21px"> </i></a>&nbsp&nbsp\n'
+                     +'<a href="#"><i class="fa fa fa-trash" style="font-size:21px"></i></a>';
+
+            }}
         
         ]
 } );

@@ -23,16 +23,19 @@ use
 		Field::inst( 'movimientos.descripcion'),
 		Field::inst( 'movimientos.fecha'),
 		Field::inst( 'proveedors.razon_social' ),
+		Field::inst( 'colaboradors.razon_social' ),
 		Field::inst( 'movimientos.monto_en_pesos'),
 		Field::inst( 'movimientos.nro_factura' ),
 		Field::inst( 'movimientos.observaciones'),
 		Field::inst( 'archivos.nombre'),
-		Field::inst( 'movimientos.id')
+		Field::inst( 'movimientos.id'),
+		Field::inst( 'tipo_movimientos.descripcion')
 	)
 	->leftJoin( 'concepto_movimientos', 'concepto_movimientos.id', '=', 'movimientos.concepto_movimiento_id')
 	->leftJoin( 'proveedors', 'proveedors.id', '=', 'movimientos.proveedor_id')
 	->leftJoin( 'archivos', 'archivos.descripcion', '=', 'concat("Movimiento","_",movimientos.id)')
-	->where("movimientos.tipo_movimiento_id","2")
-	->where("movimientos.forma_de_pago_id","5","<>")
+	->leftJoin( 'tipo_movimientos', 'tipo_movimientos.id', '=','movimientos.tipo_movimiento_id' )
+	->leftJoin( 'colaboradors', 'colaboradors.id', '=','movimientos.colaborador_id')
+	//->where("movimientos.id","527",">")
 	->process($_POST)
 	->json();
