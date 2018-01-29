@@ -1,6 +1,6 @@
 <?php
 include_once('lib/connect_mysql.php');
-$output_dir = "uploads\\";
+$output_dir = "uploads/";
 
 if(isset($_FILES["myfile"]))
 {
@@ -15,6 +15,7 @@ if(isset($_FILES["myfile"]))
  	 	if(insertDb($fileName))
  	 	{
 	 		move_uploaded_file($_FILES["myfile"]["tmp_name"],$output_dir.$fileName);
+	 		$ret="correcto";
 	    	
     	}
     	else{

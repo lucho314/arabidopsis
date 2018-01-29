@@ -55,6 +55,8 @@ $bandera = 0;
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="reporteFiscal.php"><?= build_friendly_names('Reporte fiscal') ?></a></li>
                                 <li><a href="reporteContable.php"><?= build_friendly_names('Reporte contable') ?></a></li>
+                                <li><a href="movimientos.php"><?= build_friendly_names('Listado de entradas') ?></a></li>
+                                <li><a href="lista_salidas.php"><?= build_friendly_names('Listado de salidas') ?></a></li>
                             </ul>
                         </div>
                     </td>

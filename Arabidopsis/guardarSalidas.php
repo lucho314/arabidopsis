@@ -7,7 +7,7 @@ if(isset($_FILES["archivo"]))
 {
 	$path = $_FILES['archivo']['name'];
 	$ext = pathinfo($path, PATHINFO_EXTENSION);
-	$output_dir = "uploads\\";
+	$output_dir = "uploads/";
 	
 	$descripcion = "Movimiento_".$_SESSION["movimiento_id"];
 	$fecha=$_SESSION["fecha"];

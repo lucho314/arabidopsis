@@ -56,6 +56,7 @@ var table=$('#reporte').DataTable( {
             { "orderable": false,"searchable": false, "targets": 6 }
           
             ],
+            "order": [[ 1, "desc" ]],
         columns: [
             { data: "concepto_movimientos.descripcion" },
             { data: "movimientos.fecha",

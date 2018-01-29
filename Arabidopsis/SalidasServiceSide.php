@@ -24,7 +24,8 @@ use
         Field::inst( 'movimientos.fecha'),
         Field::inst( 'proveedors.razon_social' ),
         Field::inst( 'movimientos.monto_en_pesos'),
-        Field::inst( 'movimientos.nro_factura' ),
+        Field::inst( 'movimientos.nro_factura'),
+        Field::inst( 'movimientos.nro_comprobante_o_transaccion'),
         Field::inst( 'movimientos.observaciones'),
         Field::inst( 'archivos.nombre'),
         Field::inst( 'movimientos.id')

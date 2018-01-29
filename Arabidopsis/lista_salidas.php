@@ -8,12 +8,13 @@ include "html_sup.php";
 }
 
 </style>
+<a href="salidas.php" class="btn btn-primary" style="margin-right: 88%;">Nueva salida</a>
 <div class="container" id="general">
     <div class="row">
     	<div class="col-md-12">
             <div class="panel with-nav-tabs panel-default">
                 <div class="panel-heading">
-                	Reporte  fiscal
+                	SALIDAS
                 </div>
                 <div class="panel-body">
                 	<table class="table" id="reporte" width="100%">
@@ -24,6 +25,7 @@ include "html_sup.php";
                                 <th>Proveedor</th>
                                 <th>Monto</th>
                                 <th>Nro factura</th>
+                                 <th>Nro comprobante/transaccion</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -50,10 +52,11 @@ var table=$('#reporte').DataTable( {
         },
         serverSide: true,
         processing: true,
-       /* "columnDefs": [
-            { "orderable": false,"searchable": false, "targets": 6 }
+        "columnDefs": [
+            { "orderable": false,"searchable": false, "targets":6  }
           
-            ],*/
+            ],
+            "order": [[ 1, "desc" ]],
         columns: [
             { data: "concepto_movimientos.descripcion" },
             { data: "movimientos.fecha",
@@ -66,6 +69,7 @@ var table=$('#reporte').DataTable( {
             { data: "proveedors.razon_social" },
             { data: "movimientos.monto_en_pesos" },
             { data: "movimientos.nro_factura" },
+             { data: "movimientos.nro_comprobante_o_transaccion" },
              {data:function(data){
                 var disabled=(data.archivos.nombre==null) ? "not-active" : "";
                 

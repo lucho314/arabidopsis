@@ -21,10 +21,25 @@ $query5= mysql_query($sql);
 
 ?>
  <link rel="stylesheet" href="css/tabs.css">
+ <style type="text/css">
+    .cargando {
+            position: absolute;
+            top: 284px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+        }
+
+ </style>
  <script src="js/vue.js"></script>
 <div class="container" id="general">
     <div class="row">
-    	<div class="col-md-12">
+      <div id="cargando" class="col-md-12 text-center cargando" style="display: none">
+        <img src="img/cargando.gif" alt="" width="128" height="128">
+        <div class="text-center">CARGANDO...</div>
+    </div>
+    	<div class="col-md-12" id="menu">
             <div class="panel with-nav-tabs panel-default">
                 <div class="panel-heading">
                         <ul class="nav nav-tabs">
@@ -35,7 +50,7 @@ $query5= mysql_query($sql);
                             <li class="pagos"><a href="#tab4default" data-toggle="tab">Comprobante</a></li>
                              <?php endif; ?>
                             <div style="float: right">
-                            	<a class="btn btn-danger" href="ddjj_principal.aspx" style="color: white">CANCELAR</a> &nbsp;
+                            	<a class="btn btn-danger" href="lista_salidas.php" style="color: white">CANCELAR</a> &nbsp;
                             	<button class="btn btn-success" id="grabar" v-on:click="grabarDatos($event)">GRABAR</button>
                 			</div>
                         </ul>
@@ -130,7 +145,7 @@ $query5= mysql_query($sql);
           Nuevo pago
         </a>
         <div style="width: 31%; margin-left: 68%;">
-        <p style="float: left;"><b>Monto a saldar {{$data.monto}}</b></p>
+        <p style="float: left;"><b>Monto a saldar {{$data.monto - $data.monto_saldado}}</b></p>
         <p style="float: right;"><b>Monto saldado {{$data.monto_saldado}}</b></p>
     </div>
 						<table class="table" id="pagos">
@@ -343,6 +358,8 @@ var general = new Vue({
         alert("Error, no coinciden monto total con monto saldado");
         return false;
       }
+       $('#cargando').show();
+        $('#menu').css('opacity', '0.5');
 	 		$.ajax({
 	 			type: "POST",
             url: "guardarSalidas.php",
@@ -351,31 +368,37 @@ var general = new Vue({
             dataType: "json",
             success: function (e)
             {
-
+              
               <?php if(!isset($_GET["movimiento_id"])): ?>
               if($('#fileInput').val()=="")
               {
+                  $('#menu').css('opacity', '1');
+                  $('#cargando').hide();
                     swal({
                         title: "Gravado",
                         text: "Los datos se gravaron correctamente",
                         type: "success"
                     }, function () {
-                        location.href = "Salidas.php";
+                        location.href = "salidas.php";
                     });
               }
               else{
                       guardarFile().success(function(){
+                         $('#menu').css('opacity', '1');
+                        $('#cargando').hide();
                            swal({
                             title: "Gravado",
                             text: "Los datos se gravaron correctamente",
                             type: "success"
                         }, function () {
-                            location.href = "Salidas.php";
+                            location.href = "salidas.php";
                         });
                          })
               }
               
 <?php else : ?>
+              $('#menu').css('opacity', '1');
+              $('#cargando').hide();
               swal({
                     title: "Gravado",
                     text: "Los datos se gravaron correctamente",
@@ -387,6 +410,8 @@ var general = new Vue({
 
             }
 	 		}).fail(function(data){
+          $('#menu').css('opacity', '1');
+              $('#cargando').hide();
                 var str=data.responseText;
                 swal({
                     title: "Error al guardar los datos",
@@ -547,7 +572,7 @@ var vm = new Vue({
 		    	aux["index"]=pagos.length;
           if(this.monto>this.monto_a_saldar)
           {
-            alert("No puede superar el monto total a saldar");
+            alert("No puede superar el monto saldar");
             return false;
           }
           if(validarHtml($(document).find(".pago")))

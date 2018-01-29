@@ -1,7 +1,7 @@
 
 <?php 
-include_once('/../../lib/connect_mysql.php');
 
+include '/../../variables.php';
 if (!defined('DATATABLES')) exit(); // Ensure being used in DataTables env.
 
 // Enable error reporting for debugging (remove for production)

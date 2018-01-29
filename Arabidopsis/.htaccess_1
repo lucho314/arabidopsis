@@ -1,0 +1,8 @@
+Options +FollowSymlinks
+RewriteEngine on
+Rewriterule ^seccion_(.*)\.html$ seccion.php?tabla=$1
+Rewriterule ^posgrado_(.*)_(.*)\.html$ posgrado.php?id_posgrado=$1&id_carrera=$2
+Rewriterule ^noticia_(.*)\.html$ mas_informacion.php?id_subevento=$1
+
+php_value error_reporting 2
+php_flag display_errors On

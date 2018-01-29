@@ -1,6 +1,6 @@
 
 	<?php
-	$usuarioNivel= $_SESSION['usuario_nivel'];
+	 $usuarioNivel= $_SESSION['usuario_nivel'];
 	?>
 <div class="panel panel-primary">
 	
@@ -13,8 +13,10 @@
 			<th>Nombre archivo</th>
 			<th>Descripcion</th>
 			<th>Fecha de alta</th>
-			<th>Usuario alta</th>
-			<th>Visible colaborador</th>
+			<?php if($usuarioNivel==1): ?>
+				<th>Usuario alta</th>
+				<th>Visible colaborador</th>
+			<?php endif; ?>
 			<th>Acciones</th>
 		</tr>
 	</thead>
@@ -23,7 +25,7 @@
 </div>
 
 <script type="text/javascript">
-
+usuarioNivel=<?= $usuarioNivel?>;
 var table=$('#archivoss').DataTable( {
 		//dom: "Bfrtip",
 		ajax: {
@@ -35,7 +37,7 @@ var table=$('#archivoss').DataTable( {
 			}
 		},
 		"columnDefs": [
-            { "orderable": false,"searchable": false, "targets": 5 },
+            { "orderable": false,"searchable": false, "targets": (usuarioNivel==1)?5:3 },
           
             ],
 		serverSide: true,
@@ -44,17 +46,24 @@ var table=$('#archivoss').DataTable( {
 			{ data: "archivos.nombre" },
 			{ data: "archivos.descripcion" },
 			{ data: "archivos.fecha_alta" },
+			<?php if($usuarioNivel==1): ?>
 			{ data: "usuarios.nombre" },
 			{data:'archivos.visible_colaborador',
 				render:function(data){
 					return (data==1)?'Activo':'desactivado';
 				}
 			},
+			<?php endif; ?>
 
 			{data:function(data){
 				var accion=(data.archivos.visible_colaborador==1)?'Desactivar' : 'Activar';
-				var html='<button class="btn btn-primary btn-xs" onclick="cambiarEstado('+data.archivos.visible_colaborador+','+data.archivos.id+')">'+accion+'</button>&nbsp;';
+				if(usuarioNivel==1){
+						var html='<button class="btn btn-primary btn-xs" onclick="cambiarEstado('+data.archivos.visible_colaborador+','+data.archivos.id+')">'+accion+'</button>&nbsp;';
 				html+='<a  href="uploads/'+data.archivos.nombre+'" class="btn btn-default btn-xs" download>Descargar</a>';
+				}
+				else{
+					var html='<a  href="uploads/'+data.archivos.nombre+'" class="btn btn-default btn-xs" download>Descargar</a>';
+				}
 				return html;
 			}}
 		]

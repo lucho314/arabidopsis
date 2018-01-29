@@ -57,6 +57,7 @@ function verrecibo(id_genera_recibo){
                     <td width="600" align="right">
                         <div align="center"><strong><h3>SISTEMA DE CONSULTA COLABORADOR</h3></strong>
                              <a href="flujo_caja_colaborador.php">Flujo de caja</a>&nbsp;|
+                             <a href="lista_archivos_colaborador.php">Archivos</a>&nbsp;|
                             
                              <a href="javascript:abrir_pop()">Cambiar Contrase&ntilde;a</a>&nbsp;|
 

@@ -13,6 +13,7 @@ include "html_sup.php";
                         <thead>
                             <tr>
                                  <th>Fecha</th>
+                                 <th>Movimiento</th>
                                 <th>nro_factura/Comptobante</th>
                                 <th>Proveedor</th>
                                 <th>Concepto</th>
@@ -46,12 +47,15 @@ var table=$('#reporte').DataTable( {
         },
         serverSide: true,
         processing: true,
+          "order": [[ 0, "desc" ]],
         columns: [
                 { data: "reporte_contable_full.fecha", render:function(data){
                  date= new Date(data);
                  date.setDate(date.getDate()+1);
                     return date.toLocaleDateString("arg");
                 } },
+                 {data: "reporte_contable_full.tipo_movimiento"},
+              
             {data: "reporte_contable_full.nro_factura"},
             { data: "reporte_contable_full.persona" },
             { data: "reporte_contable_full.concepto" },

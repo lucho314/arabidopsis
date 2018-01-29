@@ -22,11 +22,12 @@ use
 		Field::inst( 'reporte_contable_full.persona'),
 		Field::inst( 'reporte_contable_full.concepto'),
 		Field::inst( 'reporte_contable_full.nro_factura'),
-		Field::inst( 'reporte_contable_full.nro_comprobante_o_transaccion'),
 		Field::inst( 'reporte_contable_full.forma_de_pago'),
 		Field::inst( 'reporte_contable_full.pagado'),
 		Field::inst( 'reporte_contable_full.fecha'),
-		Field::inst( 'reporte_contable_full.tipo_pago')
+		Field::inst( 'reporte_contable_full.tipo_pago'),
+		Field::inst( 'reporte_contable_full.tipo_movimiento')
+		
 	)
 	->where("reporte_contable_full.pagado","","!=")
 	->process($_POST)

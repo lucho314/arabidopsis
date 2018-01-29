@@ -66,7 +66,8 @@ if ($variablecontrol === 'create') {
     }
 }
 
-new Scaffold("noeditable", "movimientos", 300000000, array('tipo_movimiento_id', 'fecha', 'monto', 'forma_de_pago_id', 'tipo_de_transaccion_id','fecha_cierre','fecha_vencimiento'), array(), array(), array(), array('D', 'E', 'B', 'N')
+new Scaffold("noeditable", "movimientos", 300000000, array('tipo_movimiento_id', 'fecha', 'monto', 'forma_de_pago_id', 'tipo_de_transaccion_id','fecha_cierre','fecha_vencimiento'), array(), array(), array(), array('D', 'E', 'B', 'N'),
+    array('tipo_movimiento_id',1)
 );
 
 

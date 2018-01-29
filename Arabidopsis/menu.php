@@ -3,7 +3,7 @@ $ultimo_dia=  cal_days_in_month(CAL_GREGORIAN, date("m"), date("Y"));
 $inicio=  "01-". date("m")."-".date("Y");
 $fin=  $ultimo_dia."-". date("m")."-".date("Y");
 
-
+print_r($_server);
 ?>
 
 <div align="center">
@@ -17,7 +17,7 @@ $fin=  $ultimo_dia."-". date("m")."-".date("Y");
             <ul class="dropdown-menu" role="menu">
                <!-- <li role="presentation" class="dropdown-header"></li>-->
                 <li><a href="movimientos.php"><?= build_friendly_names('Entrada') ?></a></li>
-                <li><a href="movimientos.php"><?= build_friendly_names('Salida') ?></a></li>
+                <li><a href="lista_salidas.php"><?= build_friendly_names('Salida') ?></a></li>
 				<li><a href="movimientos_viejos.php"><?= build_friendly_names('Recibos atrasados') ?></a></li>
                 <li><a href="recibos_emitidos.php"><?= build_friendly_names('Recibos_Emitidos') ?></a></li>
                 <li class="divider"></li>

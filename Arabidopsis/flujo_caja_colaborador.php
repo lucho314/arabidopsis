@@ -82,7 +82,7 @@ $date->modify('+1 month');
                     <td width="600" align="right">
                         <div align="center"><strong><h3>SISTEMA DE CONSULTA COLABORADOR</h3></strong>
                              <a href="movimientos_colaborador.php">Donaciones personales</a>&nbsp;|
-                            
+                            <a href="lista_archivos_colaborador.php">Archivos</a>&nbsp;|
                              <a href="javascript:abrir_pop()">Cambiar Contrase&ntilde;a</a>&nbsp;|
 
                              <a href="aut_logout.php">SALIR</a>
