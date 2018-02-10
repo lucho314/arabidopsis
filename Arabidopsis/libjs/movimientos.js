@@ -3,7 +3,9 @@ $(function () {
     $('#forma_de_pago_id').addClass("validar-select");
     $('#descripcion').prop('required', false);
     $('.tabla_descripcion').hide();
-    $('.tabla_tipo_movimiento_id').hide();
+    
+    concepto(1);
+
     switch (accion)
     {
         case 'list':
@@ -264,6 +266,8 @@ function concepto(movimiento)
             if (accion === 'edit') {
                 $("#concepto_movimiento_id").val(conce).change();
             }
+            ocultar('movimientos',1);
+              $('#nro_recibo_fundacion').val(nro_recibo_fundacion);
         }
 
     });
